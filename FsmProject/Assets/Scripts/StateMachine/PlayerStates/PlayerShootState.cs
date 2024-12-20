@@ -15,12 +15,13 @@ public class PlayerShootState : PlayerState
         base.Enter();
         entity.DisableMovement();
         entity.blazingCannon.SetActive(true);
+        entity.FaceThis(entity.target.position);
     }
 
     public override void Exit()
     {
         base.Exit();
-        entity.blazingCannon.SetActive(false);
+      
     }
 
     public override void LogicUpdate()

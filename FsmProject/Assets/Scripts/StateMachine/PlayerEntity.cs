@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using StarterAssets;
+using DG.Tweening;
+
 public class PlayerEntity : MonoBehaviour
 {
     public D_PlayerEntity playerEntityData;
@@ -25,8 +27,13 @@ public class PlayerEntity : MonoBehaviour
 
 
     [Space]
-    [Header("Component")]
+    [Header("Blazing Cannon - Component")]
     public GameObject blazingCannon;
+    public GameObject cannonProjectilePrefab;
+    public Transform launchPoint;
+    public float launchSpeed;
+    public float ylaunchOffset;
+    public Transform target;
 
     public virtual void Start()
     {
@@ -63,6 +70,7 @@ public class PlayerEntity : MonoBehaviour
         thirdPersonController.canMove = false;
     }
 
+    #region Attack/Shoot
     public virtual void HandleAttackInput()
     {
         if (Input.GetKeyDown(KeyCode.J))
@@ -86,4 +94,35 @@ public class PlayerEntity : MonoBehaviour
     {
         stateMachine.ChangeState(idleState);
     }
+    #endregion
+
+    public void LaunchProjectile()
+    {
+        GameObject projectileInstance = Instantiate(cannonProjectilePrefab, launchPoint.position, launchPoint.rotation);
+        IProjectile projectile = projectileInstance.GetComponent<IProjectile>();
+
+        if (projectile != null)
+        {
+            //Vector3 direction = launchPoint.right; // Adjust as per your game setup
+
+            // Offset the target position in the Y-axis
+            Vector3 targetPositionWithOffset = target.position + new Vector3(0, ylaunchOffset, 0);
+
+            // Calculate the direction towards the offset target
+            Vector3 direction = (targetPositionWithOffset - launchPoint.position).normalized;
+
+            projectile.Launch(direction, launchSpeed);
+        }
+    }
+
+
+    public void FaceThis(Vector3 target)
+    {
+        Vector3 target_ = new Vector3(target.x, target.y, target.z);
+        Quaternion lookAtRotation = Quaternion.LookRotation(target_ - transform.position);
+        lookAtRotation.x = 0;
+        lookAtRotation.z = 0;
+        transform.DOLocalRotateQuaternion(lookAtRotation, 0.2f);
+    }
+
 }
