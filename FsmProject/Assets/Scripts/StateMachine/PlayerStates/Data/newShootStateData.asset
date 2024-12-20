@@ -12,3 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35d4d63ad3ee24c4ea6f82921270b94a, type: 3}
   m_Name: newShootStateData
   m_EditorClassIdentifier: 
+  shootTime: 0.8

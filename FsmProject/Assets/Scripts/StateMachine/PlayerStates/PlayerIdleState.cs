@@ -15,6 +15,7 @@ public class PlayerIdleState : PlayerState
     {
         base.Enter();
         entity.EnableMovement();
+        entity.blazingCannon.SetActive(false);
     }
 
     public override void Exit()

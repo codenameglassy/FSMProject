@@ -9,7 +9,6 @@ public class PlayerEntity : MonoBehaviour
     public Animator anim { get; private set; }
     public ThirdPersonController thirdPersonController { get; private set; }
 
-
     public PlayerMoveState moveState { get; private set; }
     public PlayerIdleState idleState { get; private set; }
     public PlayerAttackState attackState { get; private set; }
@@ -24,6 +23,10 @@ public class PlayerEntity : MonoBehaviour
     [SerializeField]
     private D_PlayerShootState shootStateData;
 
+
+    [Space]
+    [Header("Component")]
+    public GameObject blazingCannon;
 
     public virtual void Start()
     {
