@@ -13,12 +13,16 @@ public class PlayerEntity : MonoBehaviour
     public PlayerMoveState moveState { get; private set; }
     public PlayerIdleState idleState { get; private set; }
     public PlayerAttackState attackState { get; private set; }
+    public PlayerShootState shootState { get; private set; }
+
     [SerializeField]
     private D_PlayerIdleState idleStateData;
     [SerializeField]
     private D_PlayerMoveState moveStateData;
     [SerializeField]
     private D_PlayerAttackState attackStateData;
+    [SerializeField]
+    private D_PlayerShootState shootStateData;
 
 
     public virtual void Start()
@@ -31,6 +35,7 @@ public class PlayerEntity : MonoBehaviour
         moveState = new PlayerMoveState(this, stateMachine, "move", moveStateData);
         idleState = new PlayerIdleState(this, stateMachine, "idle", idleStateData);
         attackState = new PlayerAttackState(this, stateMachine, "attack", attackStateData);
+        shootState = new PlayerShootState(this, stateMachine, "shoot", shootStateData);
 
         stateMachine.Initialize(idleState);
     }
@@ -66,6 +71,11 @@ public class PlayerEntity : MonoBehaviour
             int randomAttackInt = Random.Range(0, 2);
             anim.SetFloat("attackInt", randomAttackInt);
             Debug.Log(randomAttackInt);
+        }
+
+        if (Input.GetKey(KeyCode.K))
+        {
+            stateMachine.ChangeState(shootState);
         }
     }
 
