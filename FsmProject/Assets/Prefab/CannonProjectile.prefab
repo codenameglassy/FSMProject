@@ -146,4 +146,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6aa267d8c8f9bb4b8a7b4825a9f49a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damageAmount: 5
   rb: {fileID: 4341045487341206025}
+  whatIsEnemy:
+    serializedVersion: 2
+    m_Bits: 64
+  checkRadius: 0.2
+  explosionVfx: {fileID: 8786899350452825429, guid: 896e8ddef15826e429a9c49e85a33e40,
+    type: 3}

@@ -279,7 +279,7 @@ namespace StarterAssets
             if (canMove)
             {
                 _controller.Move(targetDirection.normalized * (_speed * Time.deltaTime) +
-                            new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
+                            new Vector3(0, _verticalVelocity, 0) * Time.deltaTime);
             }
            
 
@@ -314,6 +314,7 @@ namespace StarterAssets
                 // Jump
                 if (_input.jump && _jumpTimeoutDelta <= 0.0f)
                 {
+                    return;
                     // the square root of H * -2 * G = how much velocity needed to reach desired height
                     _verticalVelocity = Mathf.Sqrt(JumpHeight * -2f * Gravity);
 
@@ -365,6 +366,11 @@ namespace StarterAssets
             if (lfAngle < -360f) lfAngle += 360f;
             if (lfAngle > 360f) lfAngle -= 360f;
             return Mathf.Clamp(lfAngle, lfMin, lfMax);
+        }
+
+        public void SetAnimSpeedFloat(float speed)
+        {
+            _animator.SetFloat(_animIDSpeed, speed);
         }
 
         private void OnDrawGizmosSelected()

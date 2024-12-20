@@ -15,6 +15,7 @@ public class PlayerIdleState : PlayerState
     {
         base.Enter();
         entity.EnableMovement();
+        entity.thirdPersonController.SetAnimSpeedFloat(0);
         entity.blazingCannon.SetActive(false);
     }
 

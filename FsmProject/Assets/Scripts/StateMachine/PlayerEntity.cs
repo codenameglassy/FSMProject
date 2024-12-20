@@ -10,12 +10,18 @@ public class PlayerEntity : MonoBehaviour
     public FiniteStateMachine stateMachine;
     public Animator anim { get; private set; }
     public ThirdPersonController thirdPersonController { get; private set; }
+    public CharacterController characterController { get; private set; }
+    public Rigidbody rb { get; private set; }
 
     public PlayerMoveState moveState { get; private set; }
     public PlayerIdleState idleState { get; private set; }
     public PlayerAttackState attackState { get; private set; }
     public PlayerShootState shootState { get; private set; }
+    public PlayerDodgeState dodgeState { get; private set; }
+    public PlayerRecoveringState recoveringState { get; private set; }
 
+    [Space]
+    [Header("State Data - Component")]
     [SerializeField]
     private D_PlayerIdleState idleStateData;
     [SerializeField]
@@ -24,6 +30,10 @@ public class PlayerEntity : MonoBehaviour
     private D_PlayerAttackState attackStateData;
     [SerializeField]
     private D_PlayerShootState shootStateData;
+    [SerializeField]
+    private D_PlayerDodgeState dodgeStateData;
+    [SerializeField]
+    private D_PlayerRecoveringState recoveringStateData;
 
 
     [Space]
@@ -33,11 +43,16 @@ public class PlayerEntity : MonoBehaviour
     public Transform launchPoint;
     public float launchSpeed;
     public float ylaunchOffset;
+
+    [Space]
+    [Header("Target Detection - Component")]
     public Transform target;
 
     public virtual void Start()
     {
         thirdPersonController = GetComponent<ThirdPersonController>();
+        characterController = GetComponent<CharacterController>();
+        rb = GetComponent<Rigidbody>();
         anim = GetComponent<Animator>();
 
         stateMachine = new FiniteStateMachine();
@@ -46,8 +61,13 @@ public class PlayerEntity : MonoBehaviour
         idleState = new PlayerIdleState(this, stateMachine, "idle", idleStateData);
         attackState = new PlayerAttackState(this, stateMachine, "attack", attackStateData);
         shootState = new PlayerShootState(this, stateMachine, "shoot", shootStateData);
+        dodgeState = new PlayerDodgeState(this, stateMachine, "dodge", dodgeStateData);
+        recoveringState = new PlayerRecoveringState(this, stateMachine, "recovering", recoveringStateData);
 
         stateMachine.Initialize(idleState);
+
+        EnableCharacterController();
+        DisableRigidbody();
     }
 
     public virtual void Update()
@@ -70,7 +90,7 @@ public class PlayerEntity : MonoBehaviour
         thirdPersonController.canMove = false;
     }
 
-    #region Attack/Shoot
+    #region Attack/Shoot/Dodge
     public virtual void HandleAttackInput()
     {
         if (Input.GetKeyDown(KeyCode.J))
@@ -86,7 +106,17 @@ public class PlayerEntity : MonoBehaviour
 
         if (Input.GetKey(KeyCode.K))
         {
+            if(target == null)
+            {
+                Debug.Log("No target to shoot!");
+                return;
+            }
             stateMachine.ChangeState(shootState);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            stateMachine.ChangeState(dodgeState);
         }
     }
 
@@ -94,7 +124,14 @@ public class PlayerEntity : MonoBehaviour
     {
         stateMachine.ChangeState(idleState);
     }
+
+    public void ResetDodge()
+    {
+        stateMachine.ChangeState(idleState);
+    }
     #endregion
+
+
 
     public void LaunchProjectile()
     {
@@ -125,4 +162,50 @@ public class PlayerEntity : MonoBehaviour
         transform.DOLocalRotateQuaternion(lookAtRotation, 0.2f);
     }
 
+    #region CharacterController -- Rigidbody
+    public void DisableCharacterController()
+    {
+        characterController.enabled = false;
+    }
+
+    public void EnableCharacterController()
+    {
+        characterController.enabled = true;
+    }
+
+    public void DisableRigidbody()
+    {
+        // Disable the Rigidbody
+        rb.isKinematic = true; // Make sure Rigidbody reacts to physics
+        rb.useGravity = false; // Optional: enable gravity if needed
+    }
+
+    public void EnableRigidbody()
+    {
+        // Enable the Rigidbody
+        rb.isKinematic = false; // Make sure Rigidbody reacts to physics
+        rb.useGravity = false; // Optional: enable gravity if needed
+    }
+    #endregion
+
+    #region Dash
+
+    private bool isDashing = false; // Whether the player is currently dashing
+
+    public void DashBack()
+    {
+        StartCoroutine(BackwardsDash());
+    }
+    
+    private IEnumerator BackwardsDash()
+    {
+        isDashing = true;
+        Vector3 dashDirection = -transform.forward; // Get the opposite of the forward direction
+        rb.AddForce(dashDirection * dodgeStateData.dashForce, ForceMode.Impulse); // Apply a force in the opposite direction
+
+        yield return new WaitForSeconds(dodgeStateData.dashDuration); // Wait for the dash duration
+
+        isDashing = false;
+    }
+    #endregion
 }
