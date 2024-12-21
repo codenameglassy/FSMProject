@@ -24,6 +24,11 @@ public class BlueOzzy_MoveState : EnemyMoveState
     {
         base.LogicUpdate();
         enemy.SetDestination(enemy.target);
+
+        if (enemy.IsCheckPlayerInMinRange())
+        {
+            enemy.stateMachine.ChangeState(enemy.attackState);
+        }
     }
 
     public override void PhysicsUpdate()

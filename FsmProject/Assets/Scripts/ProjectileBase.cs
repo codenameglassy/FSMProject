@@ -33,7 +33,6 @@ public class ProjectileBase : MonoBehaviour, IProjectile
     {
         if (IsTouchingEnemy())
         {
-            //Instantiate(explosionVfx, transform.position, Quaternion.identity);
             PerformAttack();
             Instantiate(explosionVfx, transform.position, transform.rotation);
             Destroy(gameObject);
@@ -52,9 +51,7 @@ public class ProjectileBase : MonoBehaviour, IProjectile
                 if(enemyHp != null)
                 {
                     enemyHp.TakeDamage(damageAmount);
-                    enemy.GetComponent<HealthBase>().ApplyKnockback(transform.position);
-                    /*Vector3 collisionPoint = enemy.ClosestPoint(transform.position);
-                    enemyHp.SpawnVfx(collisionPoint, explosionVfx);*/
+                  
                 }
                 
             }

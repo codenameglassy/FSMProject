@@ -146,7 +146,8 @@ public class PlayerEntity : MonoBehaviour
                     enemyHp.TakeDamage(damageAmount);
                     Vector3 collisionPoint = enemy.ClosestPoint(attackPoint.position);
                     enemyHp.SpawnVfx(collisionPoint, hitVfx);
-                    enemy.GetComponent<HealthBase>().ApplyKnockback(transform.position);
+                    //enemy.GetComponent<HealthBase>().ApplyKnockback(transform.position);
+                   
                 }
 
             }

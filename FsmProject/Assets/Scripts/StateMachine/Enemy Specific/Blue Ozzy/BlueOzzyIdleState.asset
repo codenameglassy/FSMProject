@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21d8f559975e46848bb94a468dfce243, type: 3}
   m_Name: BlueOzzyIdleState
   m_EditorClassIdentifier: 
-  idleTime: 1
+  idleTime: 0.5
