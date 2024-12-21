@@ -13,6 +13,7 @@ public class BlueOzzy_MoveState : EnemyMoveState
     public override void Enter()
     {
         base.Enter();
+      
     }
 
     public override void Exit()
@@ -28,6 +29,11 @@ public class BlueOzzy_MoveState : EnemyMoveState
         if (enemy.IsCheckPlayerInMinRange())
         {
             enemy.stateMachine.ChangeState(enemy.attackState);
+        }
+
+        if (enemy.IsCheckPlayerInMaxRange())
+        {
+            enemy.stateMachine.ChangeState(enemy.runState);
         }
     }
 

@@ -8,6 +8,7 @@ public class BlueOzzy : EnemyEntity
     public BlueOzzy_MoveState moveState { get; private set; }
     public BlueOzzy_AttackState attackState { get; private set; }
     public BlueOzzy_HurtState hurtState { get; private set; }
+    public BlueOzzy_RunState runState { get; private set; }
 
     [Header("State Data")]
     [SerializeField]
@@ -18,6 +19,8 @@ public class BlueOzzy : EnemyEntity
     private D_EnemyAttackState attackStateData;
     [SerializeField]
     private D_EnemyHurtState hurtStateData;
+    [SerializeField]
+    private D_EnemyRunState runStateData;
 
 
     public override void Start()
@@ -28,6 +31,7 @@ public class BlueOzzy : EnemyEntity
         moveState = new BlueOzzy_MoveState(this, stateMachine, "move", moveStateData, this);
         attackState = new BlueOzzy_AttackState(this, stateMachine, "attack", attackStateData, this);
         hurtState = new BlueOzzy_HurtState(this, stateMachine, "hurt", hurtStateData, this);
+        runState = new BlueOzzy_RunState(this, stateMachine, "run", runStateData, this);
 
         stateMachine.Initialize(idleState);
     }

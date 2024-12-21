@@ -5,6 +5,5 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "newIdleStateData", menuName = "StateData/Player/IdleStateData")]
 public class D_PlayerIdleState : ScriptableObject
 {
-  
-    public float attackTime;
+    public float idleTime;
 }

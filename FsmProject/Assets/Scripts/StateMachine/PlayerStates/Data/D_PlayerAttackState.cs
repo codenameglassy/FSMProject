@@ -5,5 +5,5 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "newAttackStateData", menuName = "StateData/Player/AttackStateData")]
 public class D_PlayerAttackState : ScriptableObject
 {
-  
+    public float attackTime;
 }

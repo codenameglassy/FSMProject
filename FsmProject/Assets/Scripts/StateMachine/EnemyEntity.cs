@@ -76,6 +76,11 @@ public class EnemyEntity : MonoBehaviour
         return isPlayerInMaxRange;
     }
 
+    public virtual void SetSpeed(float speed_)
+    {
+        navmeshAgent.speed = speed_;
+    }
+
     public virtual void FaceThis(Vector3 target)
     {
         Vector3 target_ = new Vector3(target.x, target.y, target.z);

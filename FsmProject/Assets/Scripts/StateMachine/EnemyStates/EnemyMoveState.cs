@@ -14,6 +14,7 @@ public class EnemyMoveState : EnemyState
     {
         base.Enter();
         entity.SetDestination(entity.target);
+        entity.SetSpeed(stateData.moveSpeed);
     }
 
     public override void Exit()

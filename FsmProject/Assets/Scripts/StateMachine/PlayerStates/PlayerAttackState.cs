@@ -25,7 +25,10 @@ public class PlayerAttackState : PlayerState
     public override void LogicUpdate()
     {
         base.LogicUpdate();
-       
+        if(Time.time >= startTime + stateData.attackTime)
+        {
+            entity.stateMachine.ChangeState(entity.idleState);
+        }
 
     }
 

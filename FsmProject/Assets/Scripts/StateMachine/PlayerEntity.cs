@@ -162,6 +162,8 @@ public class PlayerEntity : MonoBehaviour
 
     public void ResetDodge()
     {
+        characterController.enabled = true;
+        isDashing = false;
         stateMachine.ChangeState(recoveringState);
     }
     #endregion
@@ -228,6 +230,11 @@ public class PlayerEntity : MonoBehaviour
 
     public void FaceClose()
     {
+        if(target== null)
+        {
+            Debug.Log("No target close to face to!");
+            return;
+        }
         FaceThis(target.position);
     }
 
@@ -297,6 +304,8 @@ public class PlayerEntity : MonoBehaviour
          isDashing = false;*/
 
         //----------------
+        FaceClose();
+        yield return new WaitForSeconds(0.1f);
 
         isDashing = true;
 
@@ -314,8 +323,8 @@ public class PlayerEntity : MonoBehaviour
             .OnComplete(() =>
             {
                 // Re-enable CharacterController and stop dashing
-                characterController.enabled = true;
-                isDashing = false;
+               // characterController.enabled = true;
+               // isDashing = false;
             });
 
         yield return new WaitForSeconds(0.2f);

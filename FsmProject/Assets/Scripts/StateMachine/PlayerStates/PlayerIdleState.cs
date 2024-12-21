@@ -28,7 +28,7 @@ public class PlayerIdleState : PlayerState
     public override void LogicUpdate()
     {
         base.LogicUpdate();
-        if(Time.time >= startTime + stateData.attackTime)
+        if(Time.time >= startTime + stateData.idleTime)
         {
             entity.HandleAttackInput();
            

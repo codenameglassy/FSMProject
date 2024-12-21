@@ -12,3 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c51ca4306b8c6d0409b3bc10c69bdd1b, type: 3}
   m_Name: newAttackStateData
   m_EditorClassIdentifier: 
+  attackTime: 0.5
