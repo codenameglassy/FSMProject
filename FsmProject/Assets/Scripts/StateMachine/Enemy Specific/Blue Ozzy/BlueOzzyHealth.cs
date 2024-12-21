@@ -10,11 +10,13 @@ public class BlueOzzyHealth : HealthBase
     {
         base.Start();
         enemy = GetComponent<BlueOzzy>();
+        GameControl.instance.AddEnemy(transform);
     }
 
     public override void Die()
     {
         base.Die();
+        GameControl.instance.RemoveEnemy(transform);
     }
 
     public override void Hurt()

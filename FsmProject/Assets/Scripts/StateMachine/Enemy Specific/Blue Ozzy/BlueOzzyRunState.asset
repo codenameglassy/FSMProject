@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0f2d1ccf22e6d545b260dae034ae90e, type: 3}
   m_Name: BlueOzzyRunState
   m_EditorClassIdentifier: 
-  runSpeed: 3.5
+  runSpeed: 4.5
