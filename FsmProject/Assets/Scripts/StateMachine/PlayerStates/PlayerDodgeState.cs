@@ -17,18 +17,19 @@ public class PlayerDodgeState : PlayerState
     {
         base.Enter();
         entity.DisableMovement();
-        entity.DisableCharacterController();
-        entity.EnableRigidbody();
+       // entity.DisableCharacterController();
+       // entity.EnableRigidbody();
+
+       // entity.rb.velocity = Vector3.zero;
         entity.DashBack();
     }
 
     public override void Exit()
     {
         base.Exit();
-        entity.rb.velocity = Vector3.zero;
-        entity.DisableRigidbody();
-        entity.EnableCharacterController();
-        
+        //entity.rb.velocity = Vector3.zero;
+       // entity.DisableRigidbody();
+       // entity.EnableCharacterController();
     }
   
 

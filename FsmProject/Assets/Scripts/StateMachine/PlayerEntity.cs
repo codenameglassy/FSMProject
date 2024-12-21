@@ -47,12 +47,23 @@ public class PlayerEntity : MonoBehaviour
     [Space]
     [Header("Target Detection - Component")]
     public Transform target;
+    public LayerMask whatIsEnemy;
+    public float checkCloseRadius;
+
+    [Space]
+    [Header("Combat - Component")]
+    public float deltaDistance;
+    public float damageAmount;
+    public GameObject hitVfx;
+    public Transform hitSpawnPos;
+    public Transform attackPoint;
+    public float attackRange;
 
     public virtual void Start()
     {
         thirdPersonController = GetComponent<ThirdPersonController>();
         characterController = GetComponent<CharacterController>();
-        rb = GetComponent<Rigidbody>();
+        //rb = GetComponent<Rigidbody>();
         anim = GetComponent<Animator>();
 
         stateMachine = new FiniteStateMachine();
@@ -66,8 +77,8 @@ public class PlayerEntity : MonoBehaviour
 
         stateMachine.Initialize(idleState);
 
-        EnableCharacterController();
-        DisableRigidbody();
+       // EnableCharacterController();
+       // DisableRigidbody();
     }
 
     public virtual void Update()
@@ -88,6 +99,7 @@ public class PlayerEntity : MonoBehaviour
     public virtual void DisableMovement()
     {
         thirdPersonController.canMove = false;
+        thirdPersonController.SetAnimSpeedFloat(0);
     }
 
     #region Attack/Shoot/Dodge
@@ -120,6 +132,28 @@ public class PlayerEntity : MonoBehaviour
         }
     }
 
+    public void PerformAttack()
+    {
+        Collider[] enemies = Physics.OverlapSphere(attackPoint.position, attackRange, whatIsEnemy);
+
+        if (enemies.Length >= 1)
+        {
+            foreach (Collider enemy in enemies)
+            {
+                IDamageable enemyHp = enemy.GetComponent<IDamageable>();
+                if (enemyHp != null)
+                {
+                    enemyHp.TakeDamage(damageAmount);
+                    Vector3 collisionPoint = enemy.ClosestPoint(attackPoint.position);
+                    enemyHp.SpawnVfx(collisionPoint, hitVfx);
+                    enemy.GetComponent<HealthBase>().ApplyKnockback(transform.position);
+                }
+
+            }
+        }
+    }
+
+
     public void ResetAttack()
     {
         stateMachine.ChangeState(idleState);
@@ -127,11 +161,15 @@ public class PlayerEntity : MonoBehaviour
 
     public void ResetDodge()
     {
-        stateMachine.ChangeState(idleState);
+        stateMachine.ChangeState(recoveringState);
     }
     #endregion
 
-
+    public bool IsEnemyClose()
+    {
+        bool isEnemyClose_ = Physics.CheckSphere(transform.position, checkCloseRadius, whatIsEnemy);
+        return isEnemyClose_;
+    }
 
     public void LaunchProjectile()
     {
@@ -162,6 +200,36 @@ public class PlayerEntity : MonoBehaviour
         transform.DOLocalRotateQuaternion(lookAtRotation, 0.2f);
     }
 
+    public Vector3 TargetOffset(Vector3 target, float deltaDistance)
+    {
+        Vector3 position;
+        position = target;
+        return Vector3.MoveTowards(position, transform.position, deltaDistance);
+    }
+
+    public void GetClose() // Animation Event ---- for Moving Close to Target
+    {
+        Vector3 getCloseTarget;
+        /* if (target == null)
+         {
+             getCloseTarget = oldTarget.transform.position;
+         }
+         else
+         {
+             getCloseTarget = target.position;
+         }*/
+        getCloseTarget = target.position; 
+        FaceThis(getCloseTarget);
+        Vector3 finalPos = TargetOffset(getCloseTarget, deltaDistance);
+        finalPos.y = 0;
+        transform.DOMove(finalPos, 0.2f);
+    }
+
+    public void FaceClose()
+    {
+        FaceThis(target.position);
+    }
+
     #region CharacterController -- Rigidbody
     public void DisableCharacterController()
     {
@@ -176,8 +244,11 @@ public class PlayerEntity : MonoBehaviour
     public void DisableRigidbody()
     {
         // Disable the Rigidbody
+       
+
         rb.isKinematic = true; // Make sure Rigidbody reacts to physics
         rb.useGravity = false; // Optional: enable gravity if needed
+       
     }
 
     public void EnableRigidbody()
@@ -199,13 +270,66 @@ public class PlayerEntity : MonoBehaviour
     
     private IEnumerator BackwardsDash()
     {
-        isDashing = true;
+
+        /*isDashing = true;
         Vector3 dashDirection = -transform.forward; // Get the opposite of the forward direction
         rb.AddForce(dashDirection * dodgeStateData.dashForce, ForceMode.Impulse); // Apply a force in the opposite direction
 
         yield return new WaitForSeconds(dodgeStateData.dashDuration); // Wait for the dash duration
 
-        isDashing = false;
+        isDashing = false;*/
+
+        // Calculate the dash back position
+
+
+        //--------------
+
+        /* Vector3 dashDirection = -transform.forward; // Dash backwards relative to facing direction
+         Vector3 targetPosition = transform.position + dashDirection * dodgeStateData.dashForce;
+
+         // Use DOTween to move the character
+         transform.DOMove(targetPosition, dodgeStateData.dashDuration).SetEase(Ease.OutQuad);
+
+         // Wait for the dash duration
+         yield return new WaitForSeconds(dodgeStateData.dashDuration);
+
+         isDashing = false;*/
+
+        //----------------
+
+        isDashing = true;
+
+        // Calculate dash direction (opposite of player's forward direction)
+        Vector3 dashDirection = -transform.forward * dodgeStateData.dashForce;
+
+        // Use DOTween to smoothly move the CharacterController
+        Vector3 targetPosition = transform.position + dashDirection;
+
+        // Temporarily disable CharacterController to use DOTween
+        characterController.enabled = false;
+
+        transform.DOMove(targetPosition, dodgeStateData.dashDuration)
+            .SetEase(Ease.OutQuad) // Optional easing
+            .OnComplete(() =>
+            {
+                // Re-enable CharacterController and stop dashing
+                characterController.enabled = true;
+                isDashing = false;
+            });
+
+        yield return new WaitForSeconds(0.2f);
+        ResetDodge();
     }
     #endregion
+
+
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(transform.position, checkCloseRadius);
+
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(attackPoint.position, attackRange);
+    }
 }

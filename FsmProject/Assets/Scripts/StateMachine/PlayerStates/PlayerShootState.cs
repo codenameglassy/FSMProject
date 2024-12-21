@@ -13,7 +13,17 @@ public class PlayerShootState : PlayerState
     public override void Enter()
     {
         base.Enter();
+
+       
+
         entity.DisableMovement();
+
+        if (entity.IsEnemyClose())
+        {
+            
+            entity.stateMachine.ChangeState(entity.dodgeState);
+            return;
+        }
         entity.blazingCannon.SetActive(true);
         entity.FaceThis(entity.target.position);
     }

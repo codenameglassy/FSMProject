@@ -52,6 +52,9 @@ public class ProjectileBase : MonoBehaviour, IProjectile
                 if(enemyHp != null)
                 {
                     enemyHp.TakeDamage(damageAmount);
+                    enemy.GetComponent<HealthBase>().ApplyKnockback(transform.position);
+                    /*Vector3 collisionPoint = enemy.ClosestPoint(transform.position);
+                    enemyHp.SpawnVfx(collisionPoint, explosionVfx);*/
                 }
                 
             }

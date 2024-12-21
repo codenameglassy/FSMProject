@@ -15,8 +15,9 @@ public class PlayerIdleState : PlayerState
     {
         base.Enter();
         entity.EnableMovement();
-        entity.thirdPersonController.SetAnimSpeedFloat(0);
         entity.blazingCannon.SetActive(false);
+
+        //entity.thirdPersonController.SetAnimSpeedFloat(0);
     }
 
     public override void Exit()
@@ -30,6 +31,7 @@ public class PlayerIdleState : PlayerState
         if(Time.time >= startTime + stateData.attackTime)
         {
             entity.HandleAttackInput();
+           
         }
     }
 

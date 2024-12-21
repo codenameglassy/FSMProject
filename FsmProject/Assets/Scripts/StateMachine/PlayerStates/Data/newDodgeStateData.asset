@@ -12,3 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0edb1e7698666744c832bb9d561ac1f9, type: 3}
   m_Name: newDodgeStateData
   m_EditorClassIdentifier: 
+  dashForce: 2.5
+  dashDuration: 0.3

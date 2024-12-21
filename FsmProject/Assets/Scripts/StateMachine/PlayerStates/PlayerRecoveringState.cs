@@ -19,13 +19,25 @@ public class PlayerRecoveringState : PlayerState
     public override void Exit()
     {
         base.Exit();
-      
+       
+
+
     }
 
     public override void LogicUpdate()
     {
         base.LogicUpdate();
 
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            if (entity.target == null)
+            {
+                Debug.Log("No target to shoot!");
+                return;
+            }
+            entity.stateMachine.ChangeState(entity.shootState);
+            return;
+        }
         if(Time.time >= startTime + stateData.recoveringTime)
         {
             entity.stateMachine.ChangeState(entity.idleState);

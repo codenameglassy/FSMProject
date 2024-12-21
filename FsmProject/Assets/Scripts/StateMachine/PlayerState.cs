@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerState : StateMachineBehaviour
+public class PlayerState
 {
     protected FiniteStateMachine stateMachine;
     protected PlayerEntity entity;

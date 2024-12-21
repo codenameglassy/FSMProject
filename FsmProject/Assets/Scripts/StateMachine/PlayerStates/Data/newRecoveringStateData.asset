@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 230f77071f3d34349aa2c79d31b9c10b, type: 3}
   m_Name: newRecoveringStateData
   m_EditorClassIdentifier: 
-  recoveringTime: 0
+  recoveringTime: 0.25
