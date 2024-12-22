@@ -187,6 +187,8 @@ public class PlayerEntity : MonoBehaviour
 
             }
         }
+
+        GameControl.instance.TriggerHitstop(0.2f);
     }
     public void ResetAttack()
     {
@@ -208,7 +210,20 @@ public class PlayerEntity : MonoBehaviour
         Quaternion rotation = Quaternion.Euler(-90, 0, 0);
         Instantiate(groundSlamVfx, transform.position, rotation);
     }
+    public void SpecialAttackYFix()
+    {
+        characterController.enabled = false;
+        Vector3 currentPos = transform.position;
+        Vector3 yFixPos = new Vector3(transform.position.x, transform.position.y + 0.3f, transform.position.z);
+        transform.DOMove(yFixPos, .2f).OnComplete(() =>
+        {
+            transform.DOMove(currentPos, .2f).OnComplete(() => {
+                characterController.enabled = true;
+            });
 
+        });
+        ;
+    }
 
     #endregion
 
@@ -407,20 +422,7 @@ public class PlayerEntity : MonoBehaviour
         ResetDodge();
     }
 
-    public void SpecialAttackYFix()
-    {
-        characterController.enabled = false;
-        Vector3 currentPos = transform.position;
-        Vector3 yFixPos = new Vector3(transform.position.x, transform.position.y+ 0.3f, transform.position.z);
-        transform.DOMove(yFixPos, .2f).OnComplete(() =>
-        {
-            transform.DOMove(currentPos, .2f).OnComplete(() => {
-                characterController.enabled = true;
-            });
-           
-        });
-        ;
-    }
+   
     #endregion
 
 

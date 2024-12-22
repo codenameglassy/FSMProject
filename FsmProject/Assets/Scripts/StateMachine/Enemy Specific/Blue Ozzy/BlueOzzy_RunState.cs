@@ -34,16 +34,18 @@ public class BlueOzzy_RunState : EnemyRunState
     {
         base.LogicUpdate();
 
-        if (runWay == 1)
+       /* if (runWay == 1)
         {
-            enemy.SetDestination(runAwayPoint);
-
+            //enemy.SetDestination(runAwayPoint);
+            *//*
             if(Time.time >= startTime + runAwayTime)
             {
                 enemy.stateMachine.ChangeState(enemy.idleState);
-            }
+            }*//*
+
+            enemy.stateMachine.ChangeState(enemy.idleState);
             return;
-        }
+        }*/
 
         enemy.SetDestination(enemy.target);
 

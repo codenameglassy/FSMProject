@@ -31,6 +31,7 @@ public class GameControl : MonoBehaviour
         
     }
 
+    #region Enemy
     public void AddEnemy(Transform enemy)
     {
         enemyEntityList.Add(enemy);
@@ -39,5 +40,36 @@ public class GameControl : MonoBehaviour
     {
         enemyEntityList.Remove(enemy);
     }
+    #endregion
+
+    #region HitStop
+    private bool isHitStopping = false;
+    public void TriggerHitstop(float duration)
+    {
+        StartCoroutine(HitstopCoroutine(duration));
+    }
+
+    private IEnumerator HitstopCoroutine(float duration)
+    {
+        if (isHitStopping)
+        {
+            yield break;
+        }
+        isHitStopping = true;
+
+        // Store original time scale
+        float originalTimeScale = Time.timeScale;
+
+        // Set time scale to zero (pause)
+        Time.timeScale = 0.2f;
+
+        // Wait for the duration in real-time
+        yield return new WaitForSecondsRealtime(duration);
+
+        // Restore time scale
+        Time.timeScale = originalTimeScale;
+        isHitStopping = false;
+    }
+    #endregion
 
 }

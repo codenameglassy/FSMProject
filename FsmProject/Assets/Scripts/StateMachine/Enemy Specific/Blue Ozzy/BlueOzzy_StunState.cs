@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BlueOzzy_HurtState : EnemyHurtState
+public class BlueOzzy_StunState : EnemyStunState
 {
     private BlueOzzy enemy;
-    public BlueOzzy_HurtState(EnemyEntity entity, EnemyFiniteStateMachine stateMachine, string animBoolName, D_EnemyHurtState stateData, BlueOzzy enemy) : base(entity, stateMachine, animBoolName, stateData)
+    public BlueOzzy_StunState(EnemyEntity entity, EnemyFiniteStateMachine stateMachine, string animBoolName, D_EnemyStunState stateData, BlueOzzy enemy) : base(entity, stateMachine, animBoolName, stateData)
     {
         this.enemy = enemy;
     }
@@ -13,12 +13,6 @@ public class BlueOzzy_HurtState : EnemyHurtState
     public override void Enter()
     {
         base.Enter();
-        enemy.ApplyKnockback(enemy.target.position);
-        enemy.StunHit();
-        if (enemy.Stun())
-        {
-            enemy.stateMachine.ChangeState(enemy.stunState);
-        }
     }
 
     public override void Exit()
@@ -29,7 +23,7 @@ public class BlueOzzy_HurtState : EnemyHurtState
     public override void LogicUpdate()
     {
         base.LogicUpdate();
-        if(Time.time >= startTime + stateData.hurtTime)
+        if(Time.time >= startTime + stateData.stunTime)
         {
             enemy.stateMachine.ChangeState(enemy.idleState);
         }
