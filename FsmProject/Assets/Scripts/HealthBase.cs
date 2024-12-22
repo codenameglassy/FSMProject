@@ -12,8 +12,8 @@ public class HealthBase : MonoBehaviour, IDamageable
 
     [Space]
     [Header("Camera Shake")]
-    [SerializeField] private ScreenShakeProfile screenShakeProfile;
-    [SerializeField] private CinemachineImpulseSource impulseSource;
+    public ScreenShakeProfile screenShakeProfile;
+    public CinemachineImpulseSource impulseSource;
 
     public virtual void Start()
     {
