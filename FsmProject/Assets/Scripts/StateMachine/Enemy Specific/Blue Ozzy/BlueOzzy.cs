@@ -10,6 +10,8 @@ public class BlueOzzy : EnemyEntity
     public BlueOzzy_HurtState hurtState { get; private set; }
     public BlueOzzy_RunState runState { get; private set; }
     public BlueOzzy_StunState stunState { get; private set; }
+    public BlueOzzy_RangeAttackState rangeAttackState { get; private set; }
+    public BlueOzzy_DodgeState dodgeState { get; private set; }
 
     [Header("State Data")]
     [SerializeField]
@@ -24,6 +26,10 @@ public class BlueOzzy : EnemyEntity
     private D_EnemyRunState runStateData;
     [SerializeField]
     private D_EnemyStunState stunStateData;
+    [SerializeField]
+    private D_EnemyRangeAttackState rangeAttackStateData;
+    [SerializeField]
+    private D_EnemyDodgeState dodgeStateData; 
 
     int stunCount = 0;
 
@@ -37,6 +43,8 @@ public class BlueOzzy : EnemyEntity
         hurtState = new BlueOzzy_HurtState(this, stateMachine, "hurt", hurtStateData, this);
         runState = new BlueOzzy_RunState(this, stateMachine, "run", runStateData, this);
         stunState = new BlueOzzy_StunState(this, stateMachine, "stun", stunStateData, this);
+        rangeAttackState = new BlueOzzy_RangeAttackState(this, stateMachine, "rangeAttack", rangeAttackStateData, this);
+        dodgeState = new BlueOzzy_DodgeState(this, stateMachine, "dodge", dodgeStateData, this);
 
         stateMachine.Initialize(idleState);
     }

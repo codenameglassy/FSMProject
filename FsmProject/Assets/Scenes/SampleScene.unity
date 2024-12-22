@@ -1093,6 +1093,9 @@ MonoBehaviour:
   hurtStateData: {fileID: 11400000, guid: d9f89c4c73953d34a81e1c0a193556ec, type: 2}
   runStateData: {fileID: 11400000, guid: 1b0a936be8feb3643bd72ea0f0343c50, type: 2}
   stunStateData: {fileID: 11400000, guid: fc72f9f1a30c310449b893632155ed9c, type: 2}
+  rangeAttackStateData: {fileID: 11400000, guid: 9c024e99e2ac09a4d80bac8694504e1b,
+    type: 2}
+  dodgeStateData: {fileID: 11400000, guid: 9c5cd36fef2d65646b6ceb96047e8111, type: 2}
 --- !u!136 &300911073
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -3060,6 +3063,9 @@ MonoBehaviour:
   hurtStateData: {fileID: 11400000, guid: d9f89c4c73953d34a81e1c0a193556ec, type: 2}
   runStateData: {fileID: 11400000, guid: 1b0a936be8feb3643bd72ea0f0343c50, type: 2}
   stunStateData: {fileID: 11400000, guid: fc72f9f1a30c310449b893632155ed9c, type: 2}
+  rangeAttackStateData: {fileID: 11400000, guid: 9c024e99e2ac09a4d80bac8694504e1b,
+    type: 2}
+  dodgeStateData: {fileID: 11400000, guid: 9c5cd36fef2d65646b6ceb96047e8111, type: 2}
 --- !u!136 &706813525
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -7792,6 +7798,9 @@ MonoBehaviour:
   hurtStateData: {fileID: 11400000, guid: d9f89c4c73953d34a81e1c0a193556ec, type: 2}
   runStateData: {fileID: 11400000, guid: 1b0a936be8feb3643bd72ea0f0343c50, type: 2}
   stunStateData: {fileID: 11400000, guid: fc72f9f1a30c310449b893632155ed9c, type: 2}
+  rangeAttackStateData: {fileID: 11400000, guid: 9c024e99e2ac09a4d80bac8694504e1b,
+    type: 2}
+  dodgeStateData: {fileID: 11400000, guid: 9c5cd36fef2d65646b6ceb96047e8111, type: 2}
 --- !u!195 &1683480180
 NavMeshAgent:
   m_ObjectHideFlags: 0

@@ -22,6 +22,7 @@ public class BlueOzzyHealth : HealthBase
     public override void Hurt()
     {
         base.Hurt();
+
         enemy.stateMachine.ChangeState(enemy.hurtState);
     }
 

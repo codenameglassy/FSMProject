@@ -8,6 +8,8 @@ public class BlueOzzy_RunState : EnemyRunState
     private int runWay;
     private Transform runAwayPoint;
     private float runAwayTime;
+
+    int dodgeChance;
     public BlueOzzy_RunState(EnemyEntity entity, EnemyFiniteStateMachine stateMachine, string animBoolName, D_EnemyRunState stateData, BlueOzzy enemy) : base(entity, stateMachine, animBoolName, stateData)
     {
         this.enemy = enemy;
@@ -16,13 +18,14 @@ public class BlueOzzy_RunState : EnemyRunState
     public override void Enter()
     {
         base.Enter();
+        dodgeChance = Random.Range(0, 3);
+        Debug.Log(dodgeChance + " is crnt dodge change!");
 
+        //runAwayTime = Random.Range(.8f, 2f);
+        //int randomInt = Random.Range(0, GameControl.instance.runawayPoints.Count);
+        //runAwayPoint = GameControl.instance.runawayPoints[randomInt];
 
-        runAwayTime = Random.Range(.8f, 2f);
-        int randomInt = Random.Range(0, GameControl.instance.runawayPoints.Count);
-        runAwayPoint = GameControl.instance.runawayPoints[randomInt];
-
-        runWay = randomInt;
+        //runWay = randomInt;
     }
 
     public override void Exit()
@@ -51,6 +54,11 @@ public class BlueOzzy_RunState : EnemyRunState
 
         if (enemy.IsCheckPlayerInMinRange())
         {
+            if(dodgeChance == 1)
+            {
+                enemy.stateMachine.ChangeState(enemy.dodgeState);
+                return;
+            }
             enemy.stateMachine.ChangeState(enemy.attackState);
         }
 

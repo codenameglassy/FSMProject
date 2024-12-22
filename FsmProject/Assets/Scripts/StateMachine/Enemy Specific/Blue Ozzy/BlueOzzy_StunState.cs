@@ -13,6 +13,7 @@ public class BlueOzzy_StunState : EnemyStunState
     public override void Enter()
     {
         base.Enter();
+        GameControl.instance.TriggerHitstop(.4f);
     }
 
     public override void Exit()
