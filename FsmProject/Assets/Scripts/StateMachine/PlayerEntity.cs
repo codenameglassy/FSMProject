@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using StarterAssets;
 using DG.Tweening;
+using Cinemachine;
 
 public class PlayerEntity : MonoBehaviour
 {
@@ -19,6 +20,7 @@ public class PlayerEntity : MonoBehaviour
     public PlayerShootState shootState { get; private set; }
     public PlayerDodgeState dodgeState { get; private set; }
     public PlayerRecoveringState recoveringState { get; private set; }
+    public PlayerSpecialState specialState { get; private set; }
 
     [Space]
     [Header("State Data - Component")]
@@ -34,6 +36,8 @@ public class PlayerEntity : MonoBehaviour
     private D_PlayerDodgeState dodgeStateData;
     [SerializeField]
     private D_PlayerRecoveringState recoveringStateData;
+    [SerializeField] 
+    private D_PlayerSpecialState specialStateData;
 
 
     [Space]
@@ -58,6 +62,12 @@ public class PlayerEntity : MonoBehaviour
     public Transform hitSpawnPos;
     public Transform attackPoint;
     public float attackRange;
+    public GameObject groundSlamVfx;
+
+    [Space]
+    [Header("Camera Shake")]
+    public ScreenShakeProfile screenShakeProfile_SpecialAttack;
+    public CinemachineImpulseSource impulseSource;
 
     public virtual void Start()
     {
@@ -74,6 +84,7 @@ public class PlayerEntity : MonoBehaviour
         shootState = new PlayerShootState(this, stateMachine, "shoot", shootStateData);
         dodgeState = new PlayerDodgeState(this, stateMachine, "dodge", dodgeStateData);
         recoveringState = new PlayerRecoveringState(this, stateMachine, "recovering", recoveringStateData);
+        specialState = new PlayerSpecialState(this, stateMachine, "special", specialStateData);
 
         stateMachine.Initialize(idleState);
 
@@ -154,7 +165,29 @@ public class PlayerEntity : MonoBehaviour
         }
     }
 
+    public void PerformSpecialAttack()
+    {
+        float attackRange_ = attackRange * 12f;
 
+        Collider[] enemies = Physics.OverlapSphere(attackPoint.position, attackRange_, whatIsEnemy);
+
+        if (enemies.Length >= 1)
+        {
+            foreach (Collider enemy in enemies)
+            {
+                IDamageable enemyHp = enemy.GetComponent<IDamageable>();
+                if (enemyHp != null)
+                {
+                    enemyHp.TakeDamage(damageAmount);
+                    Vector3 collisionPoint = enemy.ClosestPoint(attackPoint.position);
+                    enemyHp.SpawnVfx(collisionPoint, hitVfx);
+                    //enemy.GetComponent<HealthBase>().ApplyKnockback(transform.position);
+
+                }
+
+            }
+        }
+    }
     public void ResetAttack()
     {
         stateMachine.ChangeState(idleState);
@@ -164,8 +197,19 @@ public class PlayerEntity : MonoBehaviour
     {
         characterController.enabled = true;
         isDashing = false;
-        stateMachine.ChangeState(recoveringState);
+        stateMachine.ChangeState(idleState);
     }
+
+
+    public void ShakeCamera_SpecialAttack()
+    {
+        CameraShake.instance.ScreenShakeFromProfile(screenShakeProfile_SpecialAttack, impulseSource);
+        //Vector3 groundSlamVfxPos = new Vector3(transform.position.x, transform.position.y, transform.position.z + 2f);
+        Quaternion rotation = Quaternion.Euler(-90, 0, 0);
+        Instantiate(groundSlamVfx, transform.position, rotation);
+    }
+
+
     #endregion
 
     public bool IsEnemyClose()
@@ -228,6 +272,7 @@ public class PlayerEntity : MonoBehaviour
         transform.DOMove(finalPos, 0.2f);
     }
 
+
     public void FaceClose()
     {
         if(target== null)
@@ -236,6 +281,37 @@ public class PlayerEntity : MonoBehaviour
             return;
         }
         FaceThis(target.position);
+    }
+
+    public void GetClosestEnemy()
+    {
+        target = FindClosestTarget();
+    }
+
+    Transform FindClosestTarget()
+    {
+        if (GameControl.instance.enemyEntityList == null || GameControl.instance.enemyEntityList.Count == 0)
+            return null;
+
+        Transform closest = null;
+        float closestDistanceSqr = Mathf.Infinity;
+        Vector3 playerPosition = transform.position;
+
+        foreach (Transform target in GameControl.instance.enemyEntityList)
+        {
+            if (target == null) continue;
+
+            Vector3 directionToTarget = target.position - playerPosition;
+            float distanceSqr = directionToTarget.sqrMagnitude;
+
+            if (distanceSqr < closestDistanceSqr)
+            {
+                closestDistanceSqr = distanceSqr;
+                closest = target;
+            }
+        }
+
+        return closest;
     }
 
     #region CharacterController -- Rigidbody
@@ -329,6 +405,21 @@ public class PlayerEntity : MonoBehaviour
 
         yield return new WaitForSeconds(0.2f);
         ResetDodge();
+    }
+
+    public void SpecialAttackYFix()
+    {
+        characterController.enabled = false;
+        Vector3 currentPos = transform.position;
+        Vector3 yFixPos = new Vector3(transform.position.x, transform.position.y+ 0.3f, transform.position.z);
+        transform.DOMove(yFixPos, .2f).OnComplete(() =>
+        {
+            transform.DOMove(currentPos, .2f).OnComplete(() => {
+                characterController.enabled = true;
+            });
+           
+        });
+        ;
     }
     #endregion
 

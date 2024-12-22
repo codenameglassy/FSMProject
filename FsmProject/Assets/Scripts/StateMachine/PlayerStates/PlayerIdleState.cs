@@ -31,7 +31,11 @@ public class PlayerIdleState : PlayerState
         if(Time.time >= startTime + stateData.idleTime)
         {
             entity.HandleAttackInput();
-           
+            if (Input.GetKeyDown(KeyCode.L))
+            {
+                //special
+                entity.stateMachine.ChangeState(entity.specialState);
+            }
         }
     }
 

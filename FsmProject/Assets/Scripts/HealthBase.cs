@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
 using DG.Tweening;
 using UnityEngine.AI;
 public class HealthBase : MonoBehaviour, IDamageable
@@ -9,11 +10,15 @@ public class HealthBase : MonoBehaviour, IDamageable
     public float maxHp;
     private float currentHp;
 
+    [Space]
+    [Header("Camera Shake")]
+    [SerializeField] private ScreenShakeProfile screenShakeProfile;
+    [SerializeField] private CinemachineImpulseSource impulseSource;
 
     public virtual void Start()
     {
         currentHp = maxHp;
-        
+
     }
 
     public virtual void TakeDamage(float damageAmt)
@@ -32,6 +37,13 @@ public class HealthBase : MonoBehaviour, IDamageable
     public virtual void Hurt()
     {
         Debug.Log(gameObject.name + " taken damage.");
+
+        if (screenShakeProfile == null || impulseSource == null)
+        {
+            return;
+        }
+
+        CameraShake.instance.ScreenShakeFromProfile(screenShakeProfile, impulseSource);
     }
 
     public virtual void Die()

@@ -17,6 +17,7 @@ public class PlayerShootState : PlayerState
        
 
         entity.DisableMovement();
+        entity.GetClosestEnemy();
 
         if (entity.IsEnemyClose())
         {

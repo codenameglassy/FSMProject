@@ -14,6 +14,7 @@ public class PlayerAttackState : PlayerState
     {
         base.Enter();
         entity.DisableMovement();
+        entity.GetClosestEnemy();
     }
 
     public override void Exit()
