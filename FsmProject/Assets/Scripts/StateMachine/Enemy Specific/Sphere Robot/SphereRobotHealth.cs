@@ -11,22 +11,32 @@ public class SphereRobotHealth : HealthBase
     [SerializeField] private Transform explosionVfxSpawnPos;
 
     private bool isExploding = false;
+    private SphereRobot enemy;
     public override void Start()
     {
         base.Start();
+        enemy = GetComponent<SphereRobot>();
         GameControl.instance.AddEnemy(transform);
     }
     public override void TakeDamage(float damageAmt)
     {
+        enemy.ApplyKnockback(enemy.target.position);
         base.TakeDamage(damageAmt);
     }
 
     public override void Hurt()
     {
         base.Hurt();
+        
+        
     }
 
     public override void Die()
+    {
+        enemy.stateMachine.ChangeState(enemy.hurtState);
+    }
+
+    public void Explode()
     {
         StartCoroutine(ExplodeRoutine());
     }
@@ -47,8 +57,10 @@ public class SphereRobotHealth : HealthBase
         CameraShake.instance.ScreenShakeFromProfile(screenShakeProfile, impulseSource);
         Instantiate(explosionVfx, explosionVfxSpawnPos.position, Quaternion.identity);
         GameControl.instance.TriggerHitstop(.2f);
+        WaveSpawnerManager.instance.EnemyKilled();
 
-        Destroy(gameObject);
+        gameObject.SetActive(false);
+        //Destroy(gameObject);
     }
 
 }

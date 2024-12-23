@@ -5,6 +5,9 @@ using UnityEngine;
 public class BlueOzzyHealth : HealthBase
 {
     private BlueOzzy enemy;
+    [SerializeField] private Transform deadVfxPos;
+    [SerializeField] private GameObject deadVfx;
+    [SerializeField] private Quaternion deadVfxRot = Quaternion.Euler(0, 0, 0);
 
     public override void Start()
     {
@@ -15,8 +18,9 @@ public class BlueOzzyHealth : HealthBase
 
     public override void Die()
     {
-        base.Die();
         GameControl.instance.RemoveEnemy(transform);
+        Instantiate(deadVfx, deadVfxPos.position, deadVfxRot);
+        base.Die();
     }
 
     public override void Hurt()

@@ -24,6 +24,7 @@ public class HealthBase : MonoBehaviour, IDamageable
     public virtual void TakeDamage(float damageAmt)
     {
         currentHp -= damageAmt;
+        Hurt();
 
         if (currentHp <= 0)
         {
@@ -31,7 +32,7 @@ public class HealthBase : MonoBehaviour, IDamageable
             return;
         }
 
-        Hurt();
+       
     }
 
     public virtual void Hurt()
@@ -44,12 +45,17 @@ public class HealthBase : MonoBehaviour, IDamageable
         }
 
         CameraShake.instance.ScreenShakeFromProfile(screenShakeProfile, impulseSource);
+        GameControl.instance.TriggerHitstop(.05f);
+        
     }
 
     public virtual void Die()
     {
         Debug.Log(gameObject.name + " has died.");
-        Destroy(gameObject);
+        //Destroy(gameObject);
+        GameControl.instance.TriggerHitstop(.4f);
+        WaveSpawnerManager.instance.EnemyKilled();
+        gameObject.SetActive(false);
     }
 
     public void SpawnVfx(Vector3 spawnPos, GameObject vfxPrefab)

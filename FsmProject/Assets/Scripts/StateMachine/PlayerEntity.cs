@@ -58,6 +58,7 @@ public class PlayerEntity : MonoBehaviour
     [Header("Combat - Component")]
     public float deltaDistance;
     public float damageAmount;
+    public float sp_damageAmount;
     public GameObject hitVfx;
     public Transform hitSpawnPos;
     public Transform attackPoint;
@@ -68,6 +69,12 @@ public class PlayerEntity : MonoBehaviour
     [Header("Camera Shake")]
     public ScreenShakeProfile screenShakeProfile_SpecialAttack;
     public CinemachineImpulseSource impulseSource;
+
+    [Space]
+    [Header("Cinemachine")]
+    [SerializeField] private CinemachineVirtualCamera virtualCamera;
+    [SerializeField] [Range(1f, 10f)] private float rotationSmoothness;
+    private Transform focusPoint;  // Temporary midpoint focus point
 
     public virtual void Start()
     {
@@ -88,8 +95,11 @@ public class PlayerEntity : MonoBehaviour
 
         stateMachine.Initialize(idleState);
 
-       // EnableCharacterController();
-       // DisableRigidbody();
+        // EnableCharacterController();
+        // DisableRigidbody();
+
+        focusPoint = new GameObject("FocusPoint").transform;
+
     }
 
     public virtual void Update()
@@ -178,7 +188,7 @@ public class PlayerEntity : MonoBehaviour
                 IDamageable enemyHp = enemy.GetComponent<IDamageable>();
                 if (enemyHp != null)
                 {
-                    enemyHp.TakeDamage(damageAmount);
+                    enemyHp.TakeDamage(sp_damageAmount);
                     Vector3 collisionPoint = enemy.ClosestPoint(attackPoint.position);
                     enemyHp.SpawnVfx(collisionPoint, hitVfx);
                     //enemy.GetComponent<HealthBase>().ApplyKnockback(transform.position);
@@ -227,6 +237,37 @@ public class PlayerEntity : MonoBehaviour
 
     #endregion
 
+    public virtual void FocusAtMidPoint()
+    {
+        if (target != null)
+        {
+            // Calculate the horizontal midpoint between the player and the target
+            Vector3 playerPosition = transform.position;
+            Vector3 targetPosition = target.position;
+
+            Vector3 midpoint = (playerPosition + targetPosition) / 2;
+
+            // Calculate the direction from the camera to the midpoint
+            Vector3 direction = midpoint - virtualCamera.transform.position;
+
+            // Get the current rotation of the camera
+            Quaternion currentRotation = virtualCamera.transform.rotation;
+
+            // Calculate the target Y-axis rotation
+            Quaternion targetRotation = Quaternion.LookRotation(direction, Vector3.up);
+            float targetYRotation = targetRotation.eulerAngles.y;
+
+            // Apply only the Y-axis rotation to the camera, keeping X and Z unchanged
+            virtualCamera.transform.rotation = Quaternion.Slerp(currentRotation,
+            Quaternion.Euler(
+            currentRotation.eulerAngles.x, // Preserve current X-axis rotation
+            targetYRotation,              // Update Y-axis rotation
+            currentRotation.eulerAngles.z // Preserve current Z-axis rotation
+            ),
+            Time.deltaTime * rotationSmoothness);
+        }
+    }
+
     public bool IsEnemyClose()
     {
         bool isEnemyClose_ = Physics.CheckSphere(transform.position, checkCloseRadius, whatIsEnemy);
@@ -271,15 +312,14 @@ public class PlayerEntity : MonoBehaviour
 
     public void GetClose() // Animation Event ---- for Moving Close to Target
     {
+        if(target == null)
+        {
+            Debug.Log("No target found!");
+            return;
+        }
+
         Vector3 getCloseTarget;
-        /* if (target == null)
-         {
-             getCloseTarget = oldTarget.transform.position;
-         }
-         else
-         {
-             getCloseTarget = target.position;
-         }*/
+       
         getCloseTarget = target.position; 
         FaceThis(getCloseTarget);
         Vector3 finalPos = TargetOffset(getCloseTarget, deltaDistance);

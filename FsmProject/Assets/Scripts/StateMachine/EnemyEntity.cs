@@ -90,7 +90,12 @@ public class EnemyEntity : MonoBehaviour
         transform.DOLocalRotateQuaternion(lookAtRotation, 0.2f);
     }
 
-   
+    public virtual void PerformAttack()
+    {
+        FaceThis(target.position);
+
+        //attack
+    }
 
     public virtual void ApplyKnockback(Vector3 attackerPosition)
     {
@@ -108,6 +113,9 @@ public class EnemyEntity : MonoBehaviour
         Vector3 knockbackTarget = transform.position + knockbackDirection * knockbackDistance;
         knockbackTarget.y = transform.position.y;
 
+        // Kill the current sequence if it's active to prevent overlap
+        dashSequence?.Kill();
+
         // Apply DOTween animation
         transform.DOMove(knockbackTarget, knockbackDuration)
             .SetEase(Ease.OutQuad) // Smooth easing
@@ -116,6 +124,44 @@ public class EnemyEntity : MonoBehaviour
                 // Re-enable the NavMeshAgent after knockback
                 navmeshAgent.isStopped = false;
             });
+    }
+
+    // Store the sequence as a class-level variable to manage it
+    private Sequence dashSequence;
+
+    public virtual void Dash()
+    {
+        // Face player
+        FaceThis(target.position);
+
+        // Stop the NavMeshAgent
+        navmeshAgent.isStopped = true;
+
+        // Calculate the knockback direction (away from the attacker)
+        Vector3 knockbackDirection = (target.position - transform.position).normalized;
+
+        // Calculate the knockback target position
+        Vector3 knockbackTarget = transform.position + knockbackDirection * 0.8f;
+        knockbackTarget.y = transform.position.y;
+
+        // Kill the current sequence if it's active to prevent overlap
+        dashSequence?.Kill();
+
+        // Create a new sequence
+        dashSequence = DOTween.Sequence();
+
+        // Add the dash animation to the sequence
+        dashSequence.Append(transform.DOMove(knockbackTarget, 0.1f).SetEase(Ease.OutQuad));
+
+        // Add a callback to re-enable the NavMeshAgent
+        dashSequence.OnComplete(() =>
+        {
+            navmeshAgent.velocity = Vector3.zero;
+            navmeshAgent.isStopped = false;
+        });
+
+        // Play the sequence
+        dashSequence.Play();
     }
 
 

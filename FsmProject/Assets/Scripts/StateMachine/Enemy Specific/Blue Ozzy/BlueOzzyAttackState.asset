@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36445dbcd671dc748bbb600b4b17105d, type: 3}
   m_Name: BlueOzzyAttackState
   m_EditorClassIdentifier: 
-  attackTime: 2
+  attackTime: 1.2

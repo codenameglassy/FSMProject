@@ -28,6 +28,9 @@ public class PlayerIdleState : PlayerState
     public override void LogicUpdate()
     {
         base.LogicUpdate();
+
+        //entity.FocusAtMidPoint();
+
         if(Time.time >= startTime + stateData.idleTime)
         {
             entity.HandleAttackInput();

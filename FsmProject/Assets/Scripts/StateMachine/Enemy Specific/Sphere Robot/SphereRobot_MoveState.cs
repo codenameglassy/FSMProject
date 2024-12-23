@@ -31,8 +31,9 @@ public class SphereRobot_MoveState : EnemyMoveState
 
         if (enemy.IsCheckPlayerInMinRange())
         {
-            enemy.GetComponent<IDamageable>().Die();
-            enemy.stateMachine.ChangeState(enemy.idleState);
+            enemy.stateMachine.ChangeState(enemy.hurtState);
+            //enemy.GetComponent<IDamageable>().Die();
+            //enemy.stateMachine.ChangeState(enemy.idleState);
         }
     }
 
