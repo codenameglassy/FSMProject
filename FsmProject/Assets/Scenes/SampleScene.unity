@@ -160,7 +160,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 78.22217, y: 49.77777}
+  m_AnchoredPosition: {x: 56.888794, y: 49.77777}
   m_SizeDelta: {x: 45, y: 250}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &29344987
@@ -1230,7 +1230,7 @@ Light:
     m_Type: 2
     m_Resolution: -1
     m_CustomResolution: -1
-    m_Strength: 1
+    m_Strength: 0.7
     m_Bias: 0.05
     m_NormalBias: 0.4
     m_NearPlane: 0.2
@@ -8778,7 +8778,7 @@ MonoBehaviour:
     FieldOfView: 45
     OrthographicSize: 4.5
     NearClipPlane: 0.2
-    FarClipPlane: 250
+    FarClipPlane: 100
     Dutch: 0
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
@@ -9593,7 +9593,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.2
-  far clip plane: 250
+  far clip plane: 100
   field of view: 45
   orthographic: 1
   orthographic size: 4.5
