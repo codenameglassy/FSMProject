@@ -27,13 +27,17 @@ public class EnemyEntity : MonoBehaviour
     public float knockbackDistance = 2f; // Distance to knock the enemy back
     public float knockbackDuration = 0.5f; // Duration of the knockback effect
 
+    [Space]
+    [Header("Combat")]
+    [SerializeField] private float attackRange;
+    [SerializeField] private float attackDamage;
+    [SerializeField] private Transform attackPos;
 
     public virtual void Start()
     {
         modelGO = transform.Find("Model").gameObject;
         navmeshAgent = GetComponent<NavMeshAgent>();
         anim = GetComponent<Animator>();
-
         target = FindObjectOfType<PlayerEntity>().transform; //set target
 
         stateMachine = new EnemyFiniteStateMachine();
@@ -95,6 +99,12 @@ public class EnemyEntity : MonoBehaviour
         FaceThis(target.position);
 
         //attack
+        bool checkPlayerInAttackRange = Physics.CheckSphere(attackPos.position, attackRange, whatIsPlayer);
+        if (checkPlayerInAttackRange)
+        {
+            Debug.Log(gameObject.name + "is doing damage!");
+            target.GetComponent<IDamageable>().TakeDamage(attackDamage);
+        }
     }
 
     public virtual void ApplyKnockback(Vector3 attackerPosition)
@@ -172,5 +182,6 @@ public class EnemyEntity : MonoBehaviour
 
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(checkPlayerPos.position, checkPlayerInMinRange);
+        Gizmos.DrawWireSphere(attackPos.position, attackRange);
     }
 }

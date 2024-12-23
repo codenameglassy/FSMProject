@@ -69,6 +69,7 @@ public class PlayerEntity : MonoBehaviour
     [Header("Camera Shake")]
     public ScreenShakeProfile screenShakeProfile_SpecialAttack;
     public CinemachineImpulseSource impulseSource;
+   
 
     [Space]
     [Header("Cinemachine")]

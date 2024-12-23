@@ -9,6 +9,7 @@ public class SphereRobot : EnemyEntity
     public SphereRobot_MoveState moveState { get; private set; }
     public SphereRobot_HurtState hurtState { get; private set; }
 
+    [Header("State Data")]
     [SerializeField] private D_EnemyMoveState moveStateData;
     [SerializeField] private D_EnemyIdleState idleStateData;
     [SerializeField] private D_EnemyIntroState introStateData;

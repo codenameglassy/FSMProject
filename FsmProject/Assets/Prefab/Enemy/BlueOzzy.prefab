@@ -1858,6 +1858,37 @@ Transform:
   - {fileID: 6199947048831796675}
   m_Father: {fileID: 3238290830881206322}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &8117102164487668210
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5574255997827701342}
+  m_Layer: 6
+  m_Name: AttackRange
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5574255997827701342
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8117102164487668210}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.75, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3238290830881206322}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8130128979178814631
 GameObject:
   m_ObjectHideFlags: 0
@@ -2023,6 +2054,7 @@ Transform:
   m_Children:
   - {fileID: 2615270083772691851}
   - {fileID: 7986853096192798911}
+  - {fileID: 5574255997827701342}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &1904773993704202298
@@ -2165,6 +2197,9 @@ MonoBehaviour:
   entityData: {fileID: 11400000, guid: a5961f90bc80ef747b2e027baef66144, type: 2}
   knockbackDistance: 2
   knockbackDuration: 0.5
+  attackRange: 0.8
+  attackDamage: 10
+  attackPos: {fileID: 5574255997827701342}
   idleStateData: {fileID: 11400000, guid: 91ec1edbcc86ddf4da36b9a6bc480feb, type: 2}
   moveStateData: {fileID: 11400000, guid: 8c2879ba0026b4541af25ba7b3c6b302, type: 2}
   attackStateData: {fileID: 11400000, guid: 6125b26a1ed9c284682221b24d8b7a05, type: 2}
@@ -2189,6 +2224,8 @@ MonoBehaviour:
   maxHp: 60
   screenShakeProfile: {fileID: 11400000, guid: f4c76dc671225624d991c10941d8eff2, type: 2}
   impulseSource: {fileID: 2258374464717941453}
+  render: {fileID: 7320841886468757480}
+  flashMat: {fileID: 2100000, guid: aa75052c0ac3e064a9177523f5174f04, type: 2}
   deadVfxPos: {fileID: 7986853096192798911}
   deadVfx: {fileID: 7992356739470337477, guid: c38326e281c71cf458f2121b1a674c07, type: 3}
   deadVfxRot: {x: -0.70710677, y: 0, z: 0, w: 0.70710677}

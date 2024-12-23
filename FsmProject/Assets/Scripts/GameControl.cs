@@ -72,4 +72,18 @@ public class GameControl : MonoBehaviour
     }
     #endregion
 
+
+    public void GameOver()
+    {
+        Test();
+
+    }
+
+    void Test()
+    {
+        for (int i = 0; i < enemyEntityList.Count; i++)
+        {
+            enemyEntityList[i].gameObject.SetActive(false);
+        }
+    }
 }

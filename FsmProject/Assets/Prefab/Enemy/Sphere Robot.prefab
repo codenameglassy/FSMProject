@@ -3482,6 +3482,9 @@ MonoBehaviour:
   entityData: {fileID: 11400000, guid: 43726c9ba4fc3bd45828832296d00c50, type: 2}
   knockbackDistance: 2
   knockbackDuration: 0.5
+  attackRange: 2
+  attackDamage: 20
+  attackPos: {fileID: 3088812788619445153}
   moveStateData: {fileID: 11400000, guid: 4419bb2ea4bd8ed4aa85ff2ad40512d2, type: 2}
   idleStateData: {fileID: 11400000, guid: 835e4f56c21df1a4f91ea52a0a2c12c8, type: 2}
   introStateData: {fileID: 11400000, guid: 0df1b001a67f35247a5196f710dfa23d, type: 2}
@@ -3501,6 +3504,8 @@ MonoBehaviour:
   maxHp: 1
   screenShakeProfile: {fileID: 11400000, guid: f4c76dc671225624d991c10941d8eff2, type: 2}
   impulseSource: {fileID: 3783915884300268118}
+  render: {fileID: 519471826697807047}
+  flashMat: {fileID: 2100000, guid: aa75052c0ac3e064a9177523f5174f04, type: 2}
   explosionVfx: {fileID: 8194992990867289339, guid: 99bc28c0d45f51c4fbac01080b73edc7,
     type: 3}
   explosionVfxSpawnPos: {fileID: 3088812788619445153}

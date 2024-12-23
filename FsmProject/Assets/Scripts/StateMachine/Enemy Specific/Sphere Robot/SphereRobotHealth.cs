@@ -52,8 +52,9 @@ public class SphereRobotHealth : HealthBase
 
         GameControl.instance.RemoveEnemy(transform);
         transform.DOPunchScale(new Vector3(.5f, .5f, .5f), .5f, 5, .5f);
-        yield return new WaitForSeconds(.5f);
+        yield return new WaitForSeconds(.2f);
 
+        enemy.PerformAttack();
         CameraShake.instance.ScreenShakeFromProfile(screenShakeProfile, impulseSource);
         Instantiate(explosionVfx, explosionVfxSpawnPos.position, Quaternion.identity);
         GameControl.instance.TriggerHitstop(.2f);

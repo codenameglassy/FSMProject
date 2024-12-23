@@ -15,10 +15,15 @@ public class HealthBase : MonoBehaviour, IDamageable
     public ScreenShakeProfile screenShakeProfile;
     public CinemachineImpulseSource impulseSource;
 
+    [Header("Model Render")]
+    [SerializeField] private Renderer render;
+    [SerializeField] private Material flashMat;
+    private Material defaultMat;
+
     public virtual void Start()
     {
         currentHp = maxHp;
-
+        defaultMat = render.material;
     }
 
     public virtual void TakeDamage(float damageAmt)
@@ -46,7 +51,13 @@ public class HealthBase : MonoBehaviour, IDamageable
 
         CameraShake.instance.ScreenShakeFromProfile(screenShakeProfile, impulseSource);
         GameControl.instance.TriggerHitstop(.05f);
-        
+        render.material = flashMat;
+        Invoke("ResetMat", .2f);
+    }
+
+    void ResetMat()
+    {
+        render.material = defaultMat;
     }
 
     public virtual void Die()
@@ -64,6 +75,9 @@ public class HealthBase : MonoBehaviour, IDamageable
     }
 
  
-
+    public float CurrentHp()
+    {
+        return currentHp;
+    }
    
 }
