@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98a8124b2b23acd4c88b55826df19d0d, type: 3}
   m_Name: newSpecialStateData
   m_EditorClassIdentifier: 
-  specialTime: 3.4
+  specialTime: 2.5

@@ -15,6 +15,8 @@ public class PlayerAttackState : PlayerState
         base.Enter();
         entity.DisableMovement();
         entity.GetClosestEnemy();
+
+
     }
 
     public override void Exit()
@@ -26,7 +28,13 @@ public class PlayerAttackState : PlayerState
     public override void LogicUpdate()
     {
         base.LogicUpdate();
-        if(Time.time >= startTime + stateData.attackTime)
+
+        if (Time.time >= startTime + stateData.chainAttackWindowTime && Input.GetKeyDown(KeyCode.J))
+        {
+            entity.stateMachine.ChangeState(entity.chainAttack1State);
+        }
+
+        if (Time.time >= startTime + stateData.attackTime)
         {
             entity.stateMachine.ChangeState(entity.idleState);
         }

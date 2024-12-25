@@ -3482,7 +3482,7 @@ MonoBehaviour:
   entityData: {fileID: 11400000, guid: 43726c9ba4fc3bd45828832296d00c50, type: 2}
   knockbackDistance: 2
   knockbackDuration: 0.5
-  attackRange: 2
+  attackRange: 4
   attackDamage: 20
   attackPos: {fileID: 3088812788619445153}
   moveStateData: {fileID: 11400000, guid: 4419bb2ea4bd8ed4aa85ff2ad40512d2, type: 2}

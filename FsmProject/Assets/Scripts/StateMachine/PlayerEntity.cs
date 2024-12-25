@@ -21,6 +21,8 @@ public class PlayerEntity : MonoBehaviour
     public PlayerDodgeState dodgeState { get; private set; }
     public PlayerRecoveringState recoveringState { get; private set; }
     public PlayerSpecialState specialState { get; private set; }
+    public PlayerChainAttack1State chainAttack1State { get; private set; }
+    public PlayerChainAttack2State chainAttack2State { get; private set; }
 
     [Space]
     [Header("State Data - Component")]
@@ -38,7 +40,10 @@ public class PlayerEntity : MonoBehaviour
     private D_PlayerRecoveringState recoveringStateData;
     [SerializeField] 
     private D_PlayerSpecialState specialStateData;
-
+    [SerializeField]
+    private D_PlayerChainAttack1State chainAttack1StateData;
+    [SerializeField]
+    private D_PlayerChainAttack2State chainAttack2StateData;
 
     [Space]
     [Header("Blazing Cannon - Component")]
@@ -64,6 +69,12 @@ public class PlayerEntity : MonoBehaviour
     public Transform attackPoint;
     public float attackRange;
     public GameObject groundSlamVfx;
+
+    [Space]
+    [Header("Check Envrionment")]
+    public Transform checkEnemyPos;
+    public float checkEnemyInRangeDistance;
+
 
     [Space]
     [Header("Camera Shake")]
@@ -93,7 +104,8 @@ public class PlayerEntity : MonoBehaviour
         dodgeState = new PlayerDodgeState(this, stateMachine, "dodge", dodgeStateData);
         recoveringState = new PlayerRecoveringState(this, stateMachine, "recovering", recoveringStateData);
         specialState = new PlayerSpecialState(this, stateMachine, "special", specialStateData);
-
+        chainAttack1State = new PlayerChainAttack1State(this, stateMachine, "chainAttack1", chainAttack1StateData);
+        chainAttack2State = new PlayerChainAttack2State(this, stateMachine, "chainAttack2", chainAttack2StateData);
         stateMachine.Initialize(idleState);
 
         // EnableCharacterController();
@@ -129,6 +141,7 @@ public class PlayerEntity : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.J))
         {
+           
             //attack
             stateMachine.ChangeState(attackState);
 
@@ -145,14 +158,26 @@ public class PlayerEntity : MonoBehaviour
                 Debug.Log("No target to shoot!");
                 return;
             }
+            if (!IsEnemyInRange())
+            {
+                return;
+            }
             stateMachine.ChangeState(shootState);
         }
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
+          
             stateMachine.ChangeState(dodgeState);
         }
     }
+
+    public bool IsEnemyInRange()
+    {
+        bool isEnemyinRange = Physics.CheckSphere(checkEnemyPos.position, checkEnemyInRangeDistance, whatIsEnemy);
+        return isEnemyinRange;
+    }
+
 
     public void PerformAttack()
     {
@@ -176,6 +201,31 @@ public class PlayerEntity : MonoBehaviour
         }
     }
 
+    public void PerformChaseAttack()
+    {
+        GetClose();
+
+        float attackRange_ = attackRange * 4f;
+
+        Collider[] enemies = Physics.OverlapSphere(attackPoint.position, attackRange_, whatIsEnemy);
+
+        if (enemies.Length >= 1)
+        {
+            foreach (Collider enemy in enemies)
+            {
+                IDamageable enemyHp = enemy.GetComponent<IDamageable>();
+                if (enemyHp != null)
+                {
+                    enemyHp.TakeDamage(damageAmount);
+                    Vector3 collisionPoint = enemy.ClosestPoint(attackPoint.position);
+                    enemyHp.SpawnVfx(collisionPoint, hitVfx);
+                    
+                }
+
+            }
+        }
+
+    }
     public void PerformSpecialAttack()
     {
         float attackRange_ = attackRange * 12f;
@@ -316,6 +366,11 @@ public class PlayerEntity : MonoBehaviour
         if(target == null)
         {
             Debug.Log("No target found!");
+            return;
+        }
+
+        if (!IsEnemyInRange())
+        {
             return;
         }
 
@@ -475,5 +530,8 @@ public class PlayerEntity : MonoBehaviour
 
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(attackPoint.position, attackRange);
+
+        Gizmos.color = Color.cyan;
+        Gizmos.DrawWireSphere(checkEnemyPos.position, checkEnemyInRangeDistance);
     }
 }

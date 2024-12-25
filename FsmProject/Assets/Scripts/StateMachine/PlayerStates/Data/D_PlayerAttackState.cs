@@ -6,4 +6,5 @@ using UnityEngine;
 public class D_PlayerAttackState : ScriptableObject
 {
     public float attackTime;
+    public float chainAttackWindowTime;
 }
