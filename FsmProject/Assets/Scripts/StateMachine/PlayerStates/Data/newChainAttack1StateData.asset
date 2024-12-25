@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ad63c4838884f645bf91ea1d90cc6f5, type: 3}
   m_Name: newChainAttack1StateData
   m_EditorClassIdentifier: 
-  chainAttackTime: 0.8
-  chainAttack2WindowTime: 0.5
+  chainAttackTime: 0.5
+  chainAttack2WindowTime: 0.3

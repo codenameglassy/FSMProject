@@ -12,6 +12,7 @@ public class SphereRobotHealth : HealthBase
 
     private bool isExploding = false;
     private SphereRobot enemy;
+    bool isDetonating = false;
     public override void Start()
     {
         base.Start();
@@ -33,6 +34,11 @@ public class SphereRobotHealth : HealthBase
 
     public override void Die()
     {
+        if (isDetonating)
+        {
+            return;
+        }
+        isDetonating = true;
         enemy.stateMachine.ChangeState(enemy.hurtState);
     }
 
@@ -59,7 +65,7 @@ public class SphereRobotHealth : HealthBase
         Instantiate(explosionVfx, explosionVfxSpawnPos.position, Quaternion.identity);
         GameControl.instance.TriggerHitstop(.2f);
         WaveSpawnerManager.instance.EnemyKilled();
-
+        enemy.knockBackSequence.Kill();
         gameObject.SetActive(false);
         //Destroy(gameObject);
     }

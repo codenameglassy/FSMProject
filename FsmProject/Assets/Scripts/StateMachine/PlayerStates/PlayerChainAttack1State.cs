@@ -15,11 +15,14 @@ public class PlayerChainAttack1State : PlayerState
         base.Enter();
         entity.DisableMovement();
         entity.GetClosestEnemy();
+
+        ScoreManager.instance.SpawnComboPrefab("Combo +100");
     }
 
     public override void Exit()
     {
         base.Exit();
+       
     }
 
     public override void LogicUpdate()
@@ -31,10 +34,10 @@ public class PlayerChainAttack1State : PlayerState
             entity.stateMachine.ChangeState(entity.idleState);
         }
 
-        if(Time.time >= startTime + stateData.chainAttack2WindowTime && Input.GetKeyDown(KeyCode.J))
+       /* if(Time.time >= startTime + stateData.chainAttack2WindowTime && Input.GetKeyDown(KeyCode.J))
         {
             entity.stateMachine.ChangeState(entity.chainAttack2State);
-        }
+        }*/
     }
 
     public override void PhysicsUpdate()

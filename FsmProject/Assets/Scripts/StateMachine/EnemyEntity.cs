@@ -106,7 +106,7 @@ public class EnemyEntity : MonoBehaviour
             target.GetComponent<IDamageable>().TakeDamage(attackDamage);
         }
     }
-
+    [HideInInspector] public Sequence knockBackSequence; 
     public virtual void ApplyKnockback(Vector3 attackerPosition)
     {
 
@@ -126,14 +126,23 @@ public class EnemyEntity : MonoBehaviour
         // Kill the current sequence if it's active to prevent overlap
         dashSequence?.Kill();
 
-        // Apply DOTween animation
-        transform.DOMove(knockbackTarget, knockbackDuration)
-            .SetEase(Ease.OutQuad) // Smooth easing
-            .OnComplete(() =>
+        // Create a new sequence
+        knockBackSequence = DOTween.Sequence();
+
+        knockBackSequence.Append(transform.DOMove(knockbackTarget, knockbackDuration)
+            .SetEase(Ease.OutQuad));
+
+        knockBackSequence.OnComplete(() =>
+        {
+            // Re-enable the NavMeshAgent after knockback
+            if (navmeshAgent != null)
             {
-                // Re-enable the NavMeshAgent after knockback
                 navmeshAgent.isStopped = false;
-            });
+            }
+        });
+
+        knockBackSequence.Play();
+            
     }
 
     // Store the sequence as a class-level variable to manage it

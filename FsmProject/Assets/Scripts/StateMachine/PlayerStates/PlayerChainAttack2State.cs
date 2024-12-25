@@ -15,11 +15,14 @@ public class PlayerChainAttack2State : PlayerState
         base.Enter();
         entity.DisableMovement();
         entity.GetClosestEnemy();
+
+        ScoreManager.instance.SpawnComboPrefab("Combo x2");
     }
 
     public override void Exit()
     {
         base.Exit();
+      
     }
 
     public override void LogicUpdate()

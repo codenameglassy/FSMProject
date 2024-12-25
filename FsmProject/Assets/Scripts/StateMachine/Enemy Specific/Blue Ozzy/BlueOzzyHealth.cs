@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class BlueOzzyHealth : HealthBase
 {
@@ -23,6 +24,7 @@ public class BlueOzzyHealth : HealthBase
 
     public override void Die()
     {
+        enemy.knockBackSequence.Kill();
         GameControl.instance.RemoveEnemy(transform);
         Instantiate(deadVfx, deadVfxPos.position, deadVfxRot);
         base.Die();

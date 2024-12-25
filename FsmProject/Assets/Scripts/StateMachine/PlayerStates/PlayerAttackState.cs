@@ -31,6 +31,10 @@ public class PlayerAttackState : PlayerState
 
         if (Time.time >= startTime + stateData.chainAttackWindowTime && Input.GetKeyDown(KeyCode.J))
         {
+            if (!entity.IsEnemyInRange())
+            {
+                return;
+            }
             entity.stateMachine.ChangeState(entity.chainAttack1State);
         }
 
