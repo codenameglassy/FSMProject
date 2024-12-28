@@ -14,6 +14,7 @@ public class EnemyAttackState : EnemyState
     {
         base.Enter();
         entity.StopMovement();
+        AudioManagerCS.instance.PlayWithRandomPitch("enemyAttack", .2f, 3f);
     }
 
     public override void Exit()

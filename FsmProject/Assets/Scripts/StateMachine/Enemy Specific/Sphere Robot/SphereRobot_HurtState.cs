@@ -17,6 +17,7 @@ public class SphereRobot_HurtState : EnemyHurtState
         base.Enter();
 
         //enemy.ApplyKnockback(enemy.target.position);
+       
     }
 
     public override void Exit()

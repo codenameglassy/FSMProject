@@ -106,6 +106,27 @@ public class EnemyEntity : MonoBehaviour
             target.GetComponent<IDamageable>().TakeDamage(attackDamage);
         }
     }
+
+    public virtual void PerformSpecialAttack()
+    {
+        FaceThis(target.position);
+
+        //attack
+        bool checkPlayerInAttackRange = Physics.CheckSphere(attackPos.position, attackRange, whatIsPlayer);
+        if (checkPlayerInAttackRange)
+        {
+            Debug.Log(gameObject.name + "is doing damage!");
+            SpecialAttackVictim();
+            target.GetComponent<IDamageable>().TakeDamage(0);
+        }
+    }
+
+    public virtual void SpecialAttackVictim()
+    {
+
+    }
+
+
     [HideInInspector] public Sequence knockBackSequence; 
     public virtual void ApplyKnockback(Vector3 attackerPosition)
     {

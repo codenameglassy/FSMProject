@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class GameControl : MonoBehaviour
 {
@@ -14,6 +15,13 @@ public class GameControl : MonoBehaviour
     [Header("Enemy")]
     public List<Transform> enemyEntityList = new List<Transform>();
 
+    //[Header("Game State")]
+    public bool isGameOver { get; private set; }
+
+    [Header("Canvas")]
+    public GameObject gameOverCanvas;
+    public CanvasGroup fadeCanvas;
+    [SerializeField] private float gameStartDelay;
     private void Awake()
     {
         instance = this;
@@ -22,7 +30,16 @@ public class GameControl : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        fadeCanvas.alpha = 1.0f;
+        isGameOver = false;
+        AudioManagerCS.instance.Play("music");
+        StartCoroutine(Enum_Fade());
+    }
+
+    IEnumerator Enum_Fade()
+    {
+        yield return new WaitForSeconds(gameStartDelay);
+        fadeCanvas.DOFade(0, 2f);
     }
 
     // Update is called once per frame
@@ -40,6 +57,7 @@ public class GameControl : MonoBehaviour
     {
         enemyEntityList.Remove(enemy);
     }
+
     #endregion
 
     #region HitStop
@@ -75,7 +93,31 @@ public class GameControl : MonoBehaviour
 
     public void GameOver()
     {
-        Test();
+      
+        if (isGameOver)
+        {
+            return;
+        }
+        isGameOver = true;
+
+        StartCoroutine(Enum_Gameover());
+    }
+    private void FixedUpdate()
+    {
+        if (!isGameOver)
+        {
+            return;
+        }
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            SceneLoader.instance.LoadScene("SampleScene");
+        }
+    }
+    IEnumerator Enum_Gameover()
+    {
+        yield return new WaitForSeconds(2f);
+        gameOverCanvas.SetActive(true);
 
     }
 

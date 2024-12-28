@@ -25,6 +25,7 @@ public class WaveSpawnerManager : MonoBehaviour
 
     // Delay between spawning each enemy
     public float spawnDelay = 1.0f;
+    public float startWaveDelay;
 
     private PlayerEntity player;
     public TextMeshProUGUI waveText;
@@ -37,18 +38,26 @@ public class WaveSpawnerManager : MonoBehaviour
 
     private void Start()
     {
+        StartCoroutine(Enum_StartWave());
+    }
+
+    IEnumerator Enum_StartWave()
+    {
+        yield return new WaitForSeconds(startWaveDelay);
         StartWaves();
     }
 
     public void StartWaves()
     {
         // Define each wave with a list of enemies
+      
         waves.Add(new List<GameObject> { enemyType1, enemyType1, enemyType1 });               
         waves.Add(new List<GameObject> { enemyType1, enemyType1, enemyType1, enemyType2 });       
-        waves.Add(new List<GameObject> { enemyType1, enemyType1, enemyType1, enemyType2 });           
+        waves.Add(new List<GameObject> { enemyType1, enemyType1, enemyType1, enemyType2 });                   
         waves.Add(new List<GameObject> { enemyType1, enemyType1, enemyType1, enemyType2, enemyType2 });           
-        waves.Add(new List<GameObject> { enemyType1, enemyType1, enemyType1, enemyType1, enemyType2 });           
-       
+        waves.Add(new List<GameObject> { enemyType1, enemyType1, enemyType1, enemyType1, enemyType2 });
+        waves.Add(new List<GameObject> { enemyType3 });
+
         // Start the wave spawning
         StartCoroutine(SpawnWave(0.1f));
     }

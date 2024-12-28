@@ -14,7 +14,7 @@ public class PlayerShootState : PlayerState
     {
         base.Enter();
 
-       
+      
 
         entity.DisableMovement();
         entity.GetClosestEnemy();

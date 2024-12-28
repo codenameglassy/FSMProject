@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: newAttackStateData
   m_EditorClassIdentifier: 
   attackTime: 0.5
-  chainAttackWindowTime: 0.3
+  chainAttackWindowTime: 0.4

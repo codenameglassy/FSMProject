@@ -43,6 +43,7 @@ public class HealthBase : MonoBehaviour, IDamageable
     public virtual void Hurt()
     {
         Debug.Log(gameObject.name + " taken damage.");
+        AudioManagerCS.instance.PlayWithRandomPitch("hurt", 0.7f, 1.3f);
 
         if (screenShakeProfile == null || impulseSource == null)
         {

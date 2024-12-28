@@ -16,7 +16,9 @@ public class PlayerHealth : HealthBase
     {
         Instantiate(deathVfx, deathVfxPos.position, deathVfxRot);
         GameControl.instance.GameOver();
-        base.Die();
+        GameControl.instance.TriggerHitstop(.4f);
+        gameObject.SetActive(false);
+        // base.Die();
     }
 
     public override void Hurt()

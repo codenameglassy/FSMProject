@@ -16,6 +16,8 @@ public class PlayerAttackState : PlayerState
         entity.DisableMovement();
         entity.GetClosestEnemy();
 
+        AudioManagerCS.instance.PlayWithRandomPitch("playerAttack", 0.8f, 1.4f);
+
 
     }
 

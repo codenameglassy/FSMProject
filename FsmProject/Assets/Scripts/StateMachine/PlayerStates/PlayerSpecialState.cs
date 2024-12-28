@@ -14,10 +14,13 @@ public class PlayerSpecialState : PlayerState
     {
         base.Enter();
         entity.DisableMovement();
+        
        
         //entity.GetClosestEnemy();
         //entity.FaceClose();
     }
+
+  
 
     public override void Exit()
     {

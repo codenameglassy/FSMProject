@@ -66,6 +66,7 @@ public class SphereRobotHealth : HealthBase
         GameControl.instance.TriggerHitstop(.2f);
         WaveSpawnerManager.instance.EnemyKilled();
         enemy.knockBackSequence.Kill();
+        AudioManagerCS.instance.Play("explode");
         gameObject.SetActive(false);
         //Destroy(gameObject);
     }

@@ -14,6 +14,10 @@ public class EnemyFiniteStateMachine
 
     public void ChangeState(EnemyState newState)
     {
+        if (GameControl.instance.isGameOver)
+        {
+            return;
+        }
         currentState.Exit();
         currentState = newState;
         currentState.Enter();

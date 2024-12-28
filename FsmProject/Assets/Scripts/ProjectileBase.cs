@@ -20,7 +20,7 @@ public class ProjectileBase : MonoBehaviour, IProjectile
     // Start is called before the first frame update
     void Start()
     {
-        
+        AudioManagerCS.instance.PlayWithRandomPitch("shoot", 0.4f, 2f);
     }
 
     // Update is called once per frame
@@ -35,6 +35,7 @@ public class ProjectileBase : MonoBehaviour, IProjectile
         {
             PerformAttack();
             Instantiate(explosionVfx, transform.position, transform.rotation);
+            AudioManagerCS.instance.PlayWithRandomPitch("explode", 0.4f, 2f);
             Destroy(gameObject);
         }
     }

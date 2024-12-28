@@ -23,6 +23,7 @@ public class PlayerEntity : MonoBehaviour
     public PlayerSpecialState specialState { get; private set; }
     public PlayerChainAttack1State chainAttack1State { get; private set; }
     public PlayerChainAttack2State chainAttack2State { get; private set; }
+    public PlayerSpecialAttackVictimState specialAttackVictimState { get; private set; }
 
     [Space]
     [Header("State Data - Component")]
@@ -44,7 +45,8 @@ public class PlayerEntity : MonoBehaviour
     private D_PlayerChainAttack1State chainAttack1StateData;
     [SerializeField]
     private D_PlayerChainAttack2State chainAttack2StateData;
-
+    [SerializeField]
+    private D_PlayerRecoveringState specialAttackVictimStateData;
     [Space]
     [Header("Blazing Cannon - Component")]
     public GameObject blazingCannon;
@@ -106,12 +108,15 @@ public class PlayerEntity : MonoBehaviour
         specialState = new PlayerSpecialState(this, stateMachine, "special", specialStateData);
         chainAttack1State = new PlayerChainAttack1State(this, stateMachine, "chainAttack1", chainAttack1StateData);
         chainAttack2State = new PlayerChainAttack2State(this, stateMachine, "chainAttack2", chainAttack2StateData);
+        specialAttackVictimState = new PlayerSpecialAttackVictimState(this, stateMachine, "specialAttackVictim", specialAttackVictimStateData);
         stateMachine.Initialize(idleState);
 
         // EnableCharacterController();
         // DisableRigidbody();
 
         focusPoint = new GameObject("FocusPoint").transform;
+
+        DisableMovement();
 
     }
 
@@ -127,6 +132,7 @@ public class PlayerEntity : MonoBehaviour
 
     public virtual void EnableMovement()
     {
+        return;
         thirdPersonController.canMove = true;
     }
 
@@ -153,7 +159,9 @@ public class PlayerEntity : MonoBehaviour
 
         if (Input.GetKey(KeyCode.K))
         {
-            if(target == null)
+            GetClosestEnemy();
+
+            if (target == null)
             {
                 Debug.Log("No target to shoot!");
                 return;
@@ -231,6 +239,7 @@ public class PlayerEntity : MonoBehaviour
         float attackRange_ = attackRange * 12f;
 
         Collider[] enemies = Physics.OverlapSphere(attackPoint.position, attackRange_, whatIsEnemy);
+        AudioManagerCS.instance.PlayWithRandomPitch("spAttack", .5f, 2.5f);
 
         if (enemies.Length >= 1)
         {
@@ -261,6 +270,11 @@ public class PlayerEntity : MonoBehaviour
         characterController.enabled = true;
         isDashing = false;
         stateMachine.ChangeState(idleState);
+    }
+
+    public void Rage()
+    {
+        
     }
 
 
@@ -518,7 +532,41 @@ public class PlayerEntity : MonoBehaviour
         ResetDodge();
     }
 
-   
+    public void KnockBack()
+    {
+        StartCoroutine(Enum_Knockback());
+    }
+
+    private IEnumerator Enum_Knockback()
+    {
+        //----------------
+        //FaceClose();
+        yield return new WaitForSeconds(0.1f);
+
+        isDashing = true;
+
+        // Calculate dash direction (opposite of player's forward direction)
+        Vector3 dashDirection = -transform.forward * dodgeStateData.dashForce;
+
+        // Use DOTween to smoothly move the CharacterController
+        Vector3 targetPosition = transform.position + dashDirection;
+
+        // Temporarily disable CharacterController to use DOTween
+        characterController.enabled = false;
+
+        transform.DOMove(targetPosition, dodgeStateData.dashDuration)
+            .SetEase(Ease.OutQuad) // Optional easing
+            .OnComplete(() =>
+            {
+                // Re-enable CharacterController and stop dashing
+                 characterController.enabled = true;
+                 isDashing = false;
+            });
+
+        yield return new WaitForSeconds(0.2f);
+      
+    }
+
     #endregion
 
 

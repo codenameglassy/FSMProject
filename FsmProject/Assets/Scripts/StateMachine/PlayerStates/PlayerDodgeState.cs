@@ -17,7 +17,7 @@ public class PlayerDodgeState : PlayerState
     {
         base.Enter();
         entity.DisableMovement();
-        
+        entity.GetClosestEnemy();
         entity.DashBack();
     }
 

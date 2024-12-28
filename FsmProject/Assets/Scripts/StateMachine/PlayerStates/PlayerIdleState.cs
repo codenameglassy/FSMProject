@@ -16,13 +16,14 @@ public class PlayerIdleState : PlayerState
         base.Enter();
         entity.EnableMovement();
         entity.blazingCannon.SetActive(false);
-
+        entity.anim.SetBool("dance", true);
         //entity.thirdPersonController.SetAnimSpeedFloat(0);
     }
 
     public override void Exit()
     {
         base.Exit();
+        entity.anim.SetBool("dance", false);
     }
 
     public override void LogicUpdate()
