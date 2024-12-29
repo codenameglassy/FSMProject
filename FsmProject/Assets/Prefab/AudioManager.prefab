@@ -1,0 +1,104 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2588692392769953035
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6993071663235703254}
+  - component: {fileID: 4376249862453458377}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6993071663235703254
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2588692392769953035}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4376249862453458377
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2588692392769953035}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74ee8d5230ec5a940922c38a8be1258a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sounds:
+  - name: music
+    clip: {fileID: 8300000, guid: d34186907af167944850008830a08f49, type: 3}
+    volume: 0.65
+    pitch: 1
+    isLoop: 1
+    tag: 1
+    source: {fileID: 0}
+  - name: titleMusic
+    clip: {fileID: 8300000, guid: fb8143d8d03326541a48671aeaf9cb03, type: 3}
+    volume: 0.5
+    pitch: 1
+    isLoop: 0
+    tag: 1
+    source: {fileID: 0}
+  - name: shoot
+    clip: {fileID: 8300000, guid: 21cc5ebb35b190d4487e6d9b9d039520, type: 3}
+    volume: 0.7
+    pitch: 1
+    isLoop: 0
+    tag: 0
+    source: {fileID: 0}
+  - name: playerAttack
+    clip: {fileID: 8300000, guid: a21f6c1c211c54844a6c4c05ac5c651b, type: 3}
+    volume: 0.7
+    pitch: 1
+    isLoop: 0
+    tag: 0
+    source: {fileID: 0}
+  - name: spAttack
+    clip: {fileID: 8300000, guid: d041ee4edef25a746a4eb8d41e4e512b, type: 3}
+    volume: 0.7
+    pitch: 1
+    isLoop: 0
+    tag: 0
+    source: {fileID: 0}
+  - name: hurt
+    clip: {fileID: 8300000, guid: 733be93e53b444c499015219610cba14, type: 3}
+    volume: 0.7
+    pitch: 1
+    isLoop: 0
+    tag: 0
+    source: {fileID: 0}
+  - name: explode
+    clip: {fileID: 8300000, guid: 19568b1d6dac4ed4d886084097a1e944, type: 3}
+    volume: 0.7
+    pitch: 1
+    isLoop: 0
+    tag: 0
+    source: {fileID: 0}
+  - name: enemyAttack
+    clip: {fileID: 8300000, guid: 4d75f909fa0554748b1944ccc7152443, type: 3}
+    volume: 0.7
+    pitch: 1
+    isLoop: 0
+    tag: 0
+    source: {fileID: 0}
+  masterVolume: 1

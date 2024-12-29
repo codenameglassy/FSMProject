@@ -32,6 +32,7 @@ public class GameControl : MonoBehaviour
     {
         fadeCanvas.alpha = 1.0f;
         isGameOver = false;
+        AudioManagerCS.instance.Stop("titleMusic");
         AudioManagerCS.instance.Play("music");
         StartCoroutine(Enum_Fade());
     }
