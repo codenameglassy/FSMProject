@@ -28,7 +28,7 @@ public class SphereRobotHealth : HealthBase
     public override void Hurt()
     {
         base.Hurt();
-        
+        ScoreManager.instance.AddScore(10);
         
     }
 
@@ -40,6 +40,7 @@ public class SphereRobotHealth : HealthBase
         }
         isDetonating = true;
         enemy.stateMachine.ChangeState(enemy.hurtState);
+        ScoreManager.instance.AddScore(100);
     }
 
     public void Explode()

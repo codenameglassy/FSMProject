@@ -16,7 +16,8 @@ public class PlayerChainAttack1State : PlayerState
         entity.DisableMovement();
         entity.GetClosestEnemy();
 
-        ScoreManager.instance.SpawnComboPrefab("Combo +100");
+        ScoreManager.instance.SpawnComboPrefab("Combo +50");
+        ScoreManager.instance.AddScore(50);
     }
 
     public override void Exit()

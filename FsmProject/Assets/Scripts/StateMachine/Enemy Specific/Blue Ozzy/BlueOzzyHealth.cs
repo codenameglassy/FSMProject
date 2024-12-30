@@ -27,6 +27,7 @@ public class BlueOzzyHealth : HealthBase
         enemy.knockBackSequence.Kill();
         GameControl.instance.RemoveEnemy(transform);
         Instantiate(deadVfx, deadVfxPos.position, deadVfxRot);
+        ScoreManager.instance.AddScore(100);
         base.Die();
     }
 
@@ -35,6 +36,8 @@ public class BlueOzzyHealth : HealthBase
         base.Hurt();
 
         enemy.stateMachine.ChangeState(enemy.hurtState);
+        ScoreManager.instance.AddScore(10);
+      
     }
 
     public override void TakeDamage(float damageAmt)

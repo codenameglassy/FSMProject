@@ -1800,7 +1800,7 @@ MonoBehaviour:
   knockbackDistance: 2.2
   knockbackDuration: 0.5
   attackRange: 2
-  attackDamage: 30
+  attackDamage: 15
   attackPos: {fileID: 7856100912536845015}
   introStateData: {fileID: 11400000, guid: 785ffc20de64fa640a02924510a59baa, type: 2}
   idleStateData: {fileID: 11400000, guid: 4c12499d651bc344687051d911e246f8, type: 2}
@@ -1824,13 +1824,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec74a6f2b60c35042ab0b81765247cec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHp: 250
+  maxHp: 200
   screenShakeProfile: {fileID: 11400000, guid: f4c76dc671225624d991c10941d8eff2, type: 2}
   impulseSource: {fileID: 5098174394511117708}
   render: {fileID: 3657561906237284275}
   flashMat: {fileID: 2100000, guid: 819c8c01e83d7dc46b18540345aeaae4, type: 2}
-  explosionVfx: {fileID: 0}
-  explosionVfxSpawnPos: {fileID: 0}
+  explosionVfx: {fileID: 7992356739470337477, guid: c38326e281c71cf458f2121b1a674c07,
+    type: 3}
+  explosionVfxSpawnPos: {fileID: 7856100912536845015}
 --- !u!1 &4457165494480945022
 GameObject:
   m_ObjectHideFlags: 0

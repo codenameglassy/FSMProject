@@ -2191,13 +2191,13 @@ MonoBehaviour:
   whatIsPlayer:
     serializedVersion: 2
     m_Bits: 128
-  checkPlayerInMinRange: 1.8
+  checkPlayerInMinRange: 1.4
   checkPlayerInMaxRange: 4
   checkPlayerPos: {fileID: 7986853096192798911}
   entityData: {fileID: 11400000, guid: a5961f90bc80ef747b2e027baef66144, type: 2}
   knockbackDistance: 2
   knockbackDuration: 0.5
-  attackRange: 0.8
+  attackRange: 1
   attackDamage: 10
   attackPos: {fileID: 5574255997827701342}
   idleStateData: {fileID: 11400000, guid: 91ec1edbcc86ddf4da36b9a6bc480feb, type: 2}

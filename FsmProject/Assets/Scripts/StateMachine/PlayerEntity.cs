@@ -145,6 +145,10 @@ public class PlayerEntity : MonoBehaviour
     #region Attack/Shoot/Dodge
     public virtual void HandleAttackInput()
     {
+        if (!GameControl.instance.isGameStart)
+        {
+            return;
+        }
         if (Input.GetKeyDown(KeyCode.J))
         {
            

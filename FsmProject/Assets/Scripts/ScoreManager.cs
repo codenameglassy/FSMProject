@@ -13,6 +13,10 @@ public class ScoreManager : MonoBehaviour
     public RectTransform panel;         // Assign your Canvas in the Inspector
     public RectTransform comboSpawnReferencePoint; // Reference a RectTransform in the Canvas
 
+    [Header("Score")]
+    public TextMeshProUGUI scoreText;
+    int currentScore;
+
     private void Awake()
     {
         instance = this;
@@ -21,7 +25,25 @@ public class ScoreManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        currentScore = 0;
+        scoreText.text = currentScore.ToString("0");
+    }
+
+    public void SubmitScore()
+    {
+        Leaderboard leaderboard = FindObjectOfType<Leaderboard>();
+        leaderboard.SubmitScore(currentScore);
+    }
+
+    public void AddScore(int scoreToAdd)
+    {
+        currentScore += scoreToAdd;
+        scoreText.text = currentScore.ToString("0");
+    }
+
+    public int GetCurrentScore()
+    {
+        return currentScore;
     }
 
     public void SpawnComboPrefab(string string_)

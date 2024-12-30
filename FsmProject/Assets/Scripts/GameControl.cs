@@ -17,10 +17,13 @@ public class GameControl : MonoBehaviour
 
     //[Header("Game State")]
     public bool isGameOver { get; private set; }
+    public bool isGameStart { get; private set; }
 
     [Header("Canvas")]
     public GameObject gameOverCanvas;
+    public GameObject instructionText;
     public CanvasGroup fadeCanvas;
+    [SerializeField] private float fadeDelay;
     [SerializeField] private float gameStartDelay;
     private void Awake()
     {
@@ -32,6 +35,7 @@ public class GameControl : MonoBehaviour
     {
         fadeCanvas.alpha = 1.0f;
         isGameOver = false;
+        isGameStart = false;
         AudioManagerCS.instance.Stop("titleMusic");
         AudioManagerCS.instance.Play("music");
         StartCoroutine(Enum_Fade());
@@ -39,8 +43,12 @@ public class GameControl : MonoBehaviour
 
     IEnumerator Enum_Fade()
     {
-        yield return new WaitForSeconds(gameStartDelay);
+        yield return new WaitForSeconds(fadeDelay);
         fadeCanvas.DOFade(0, 2f);
+
+        yield return new WaitForSeconds(gameStartDelay);
+        isGameStart = true;
+        instructionText.SetActive(true);
     }
 
     // Update is called once per frame
@@ -118,8 +126,12 @@ public class GameControl : MonoBehaviour
     IEnumerator Enum_Gameover()
     {
         yield return new WaitForSeconds(2f);
-        gameOverCanvas.SetActive(true);
+     
+        yield return StartCoroutine(Leaderboard.instance.SubmitScoreRoutine(ScoreManager.instance.GetCurrentScore()));
+        yield return StartCoroutine(Leaderboard.instance.FetechPersonalScoreRoutine());
+        yield return StartCoroutine(Leaderboard.instance.FetechLeaderboardRoutine());
 
+        gameOverCanvas.SetActive(true);
     }
 
     void Test()

@@ -15,12 +15,17 @@ public class BunnyHealth : EnemyHealth
 
     public override void Die()
     {
+        GameControl.instance.RemoveEnemy(transform);
+        ScoreManager.instance.AddScore(200);
+        Instantiate(explosionVfx, explosionVfxSpawnPos.position, Quaternion.identity);
         base.Die();
+        
     }
 
     public override void Hurt()
     {
         base.Hurt();
+        ScoreManager.instance.AddScore(20);
     }
 
     public override void Start()
